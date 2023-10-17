@@ -3,7 +3,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { AppConfigService } from 'src/config/app-config/app-config.service';
 import { MockConfigService } from 'test/mock/mock.service';
 
-describe('AppConfigService', () => {
+describe(AppConfigService.name, () => {
   let service: AppConfigService;
   let mockConfigService: MockConfigService;
 
@@ -26,7 +26,7 @@ describe('AppConfigService', () => {
     jest.clearAllMocks();
   });
 
-  describe('get', () => {
+  describe(AppConfigService.prototype.get.name, () => {
     it('값 반환', () => {
       mockConfigService.get.mockReturnValue('value');
 
@@ -40,7 +40,7 @@ describe('AppConfigService', () => {
     });
   });
 
-  describe('getList', () => {
+  describe(AppConfigService.prototype.getList.name, () => {
     it('1개의 key 로 요청했을 때', () => {
       mockConfigService.get.mockReturnValueOnce('value1');
 
@@ -68,7 +68,7 @@ describe('AppConfigService', () => {
     });
   });
 
-  describe('getAll', () => {
+  describe(AppConfigService.prototype.getAll.name, () => {
     it('모든 env 키가 존재할 때', () => {
       mockConfigService.get.mockReturnValue('value');
 
@@ -83,7 +83,7 @@ describe('AppConfigService', () => {
     });
   });
 
-  describe('getAllMap', () => {
+  describe(AppConfigService.prototype.getAllMap.name, () => {
     it('모든 env 키가 존재할 때', () => {
       mockConfigService.get.mockReturnValue('value');
 
@@ -98,7 +98,7 @@ describe('AppConfigService', () => {
     });
   });
 
-  describe('isLocal', () => {
+  describe(AppConfigService.prototype.isLocal.name, () => {
     it('NODE_ENV 가 없을 때', () => {
       mockConfigService.get.mockReturnValue(undefined);
 
@@ -118,7 +118,7 @@ describe('AppConfigService', () => {
     });
   });
 
-  describe('isProduction', () => {
+  describe(AppConfigService.prototype.isProduction.name, () => {
     it('NODE_ENV 가 없을 때', () => {
       mockConfigService.get.mockReturnValue(undefined);
 
