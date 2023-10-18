@@ -1,9 +1,10 @@
 import {
   BadRequestException,
+  ClassSerializerInterceptor,
   ValidationError,
   ValidationPipe,
 } from '@nestjs/common';
-import { NestFactory } from '@nestjs/core';
+import { NestFactory, Reflector } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ENV_KEY } from 'src/config/app-config/app-config.constant';
 import { AppConfigService } from 'src/config/app-config/app-config.service';
@@ -25,6 +26,8 @@ async function bootstrap() {
       },
     }),
   );
+
+  app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
 
   const isProduction = appConfigService.isProduction();
 
