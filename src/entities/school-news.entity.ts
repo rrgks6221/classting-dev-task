@@ -1,4 +1,4 @@
-import { SchoolEntity } from 'src/entities/school.entity';
+import { SchoolPageEntity } from 'src/entities/school-page.entity';
 import { StudentEntity } from 'src/entities/student.entity';
 import {
   Column,
@@ -21,10 +21,10 @@ export class SchoolNewsEntity {
   @Column({
     type: 'int',
     unsigned: true,
-    name: 'school_id',
-    comment: '학교 교유 ID',
+    name: 'school_page_id',
+    comment: '학교 페이지 교유 ID',
   })
-  schoolId: number;
+  schoolPageId: number;
 
   @Column({
     type: 'int',
@@ -65,12 +65,16 @@ export class SchoolNewsEntity {
   })
   updatedAt: Date;
 
-  @ManyToOne(() => SchoolEntity, (school) => school.schoolNewsList, {
-    onUpdate: 'CASCADE',
-    onDelete: 'CASCADE',
-  })
-  @JoinColumn([{ name: 'school_id', referencedColumnName: 'id' }])
-  school: SchoolEntity;
+  @ManyToOne(
+    () => SchoolPageEntity,
+    (schoolPage) => schoolPage.schoolNewsList,
+    {
+      onUpdate: 'CASCADE',
+      onDelete: 'CASCADE',
+    },
+  )
+  @JoinColumn([{ name: 'school_page_id', referencedColumnName: 'id' }])
+  schoolPage: SchoolPageEntity;
 
   @ManyToOne(() => StudentEntity, (student) => student.schoolNewsList, {
     onUpdate: 'CASCADE',
