@@ -1,0 +1,1 @@
+export const ENCRYPTION_TOKEN = Symbol('ENCRYPTION_TOKEN');

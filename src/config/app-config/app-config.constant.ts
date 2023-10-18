@@ -13,7 +13,13 @@ const DATABASE = {
   DATABASE_DATABASE: 'DATABASE_DATABASE',
 } as const;
 
+// JWT
+const JWT = {
+  JWT_SECRET: 'JWT_SECRET',
+} as const;
+
 export const ENV_KEY = {
   ...COMMON,
   ...DATABASE,
+  ...JWT,
 } as const;

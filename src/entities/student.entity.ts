@@ -31,7 +31,7 @@ export class StudentEntity {
 
   @Column({
     type: 'varchar',
-    length: 20,
+    length: 255,
     name: 'password',
     comment: '학생 비밀번호',
   })

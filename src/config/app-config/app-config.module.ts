@@ -17,6 +17,8 @@ import { AppConfigService } from 'src/config/app-config/app-config.service';
         DATABASE_USERNAME: Joi.string().required(),
         DATABASE_PASSWORD: Joi.string().required(),
         DATABASE_DATABASE: Joi.string().required(),
+
+        JWT_SECRET: Joi.string().required(),
       }),
     }),
   ],
