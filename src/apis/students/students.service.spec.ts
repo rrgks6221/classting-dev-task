@@ -35,7 +35,7 @@ describe(StudentsService.name, () => {
     expect(service).toBeDefined();
   });
 
-  describe(StudentsService.prototype.create, () => {
+  describe(StudentsService.prototype.create.name, () => {
     it('동일한 이메일이 존재하는 경우', async () => {
       const createStudentDto: CreateStudentDto = {
         name: 'name',
@@ -67,7 +67,7 @@ describe(StudentsService.name, () => {
     });
   });
 
-  describe(StudentsService.prototype.findOneBy, () => {
+  describe(StudentsService.prototype.findOneBy.name, () => {
     it('학생이 존재하지 않는 경우', async () => {
       studentRepository.findOneBy.mockResolvedValue(null);
 
