@@ -1,4 +1,3 @@
-import { Exclude } from 'class-transformer';
 import { SchoolAdminLinkEntity } from 'src/entities/school-admin-link.entity';
 import { SchoolNewsEntity } from 'src/entities/school-news.entity';
 import { SchoolSubscribeLinkEntity } from 'src/entities/school-subscribe-link.entity';
@@ -36,7 +35,6 @@ export class StudentEntity {
     name: 'password',
     comment: '학생 비밀번호',
   })
-  @Exclude()
   password: string;
 
   @Column({
