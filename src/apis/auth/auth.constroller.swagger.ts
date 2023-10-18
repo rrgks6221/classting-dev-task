@@ -32,3 +32,28 @@ export const ApiSignUp = (
     }),
   );
 };
+
+export const ApiSignIn = (
+  apiOptions: Required<Pick<OperationObject, 'summary'>> &
+    Partial<OperationObject>,
+) => {
+  return applyDecorators(
+    ApiExtraModels(StudentResponseDto),
+    ApiOperation(apiOptions),
+    ApiResponse({
+      status: HttpStatus.CREATED,
+      schema: {
+        properties: {
+          student: {
+            type: 'object',
+            $ref: getSchemaPath(StudentResponseDto),
+          },
+          accessToken: {
+            type: 'string',
+            description: 'authorization token',
+          },
+        },
+      },
+    }),
+  );
+};
