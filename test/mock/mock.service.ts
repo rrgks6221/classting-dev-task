@@ -19,6 +19,7 @@ export class MockAppConfigService implements MockClass<AppConfigService> {
 }
 
 export class MockAuthService implements MockClass<AuthService> {
+  signIn = jest.fn();
   signUp = jest.fn();
   generateAccessToken = jest.fn();
 }

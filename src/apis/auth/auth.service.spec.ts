@@ -1,5 +1,7 @@
+import { ForbiddenException, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Test, TestingModule } from '@nestjs/testing';
+import { SignInRequestBodyDto } from 'src/apis/auth/dto/sign-in-request-body.dto';
 import { SignUpRequestBodyDto } from 'src/apis/auth/dto/sign-up-request-body.dto';
 import { StudentsService } from 'src/apis/students/students.service';
 import { ENCRYPTION_TOKEN } from 'src/constants/token.constant';
@@ -10,7 +12,7 @@ describe(AuthService.name, () => {
   let service: AuthService;
   let studentsService: MockStudentsService;
   let jwtService: { signAsync: jest.Mock };
-  let encryption: { hash: jest.Mock };
+  let encryption: { hash: jest.Mock; compare: jest.Mock };
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -30,6 +32,7 @@ describe(AuthService.name, () => {
           provide: ENCRYPTION_TOKEN,
           useValue: {
             hash: jest.fn(),
+            compare: jest.fn(),
           },
         },
       ],
@@ -38,7 +41,9 @@ describe(AuthService.name, () => {
     service = module.get<AuthService>(AuthService);
     studentsService = module.get<MockStudentsService>(StudentsService);
     jwtService = module.get<{ signAsync: jest.Mock }>(JwtService);
-    encryption = module.get<{ hash: jest.Mock }>(ENCRYPTION_TOKEN);
+    encryption = module.get<{ hash: jest.Mock; compare: jest.Mock }>(
+      ENCRYPTION_TOKEN,
+    );
   });
 
   afterEach(() => {
@@ -68,6 +73,52 @@ describe(AuthService.name, () => {
         password: 'hashedPassword',
       });
       expect(encryption.hash).toBeCalledWith(password, expect.anything());
+    });
+  });
+
+  describe(AuthService.prototype.signIn.name, () => {
+    let signInRequestBodyDto: SignInRequestBodyDto;
+
+    beforeEach(() => {
+      signInRequestBodyDto = new SignInRequestBodyDto();
+    });
+
+    it('email 에 해당하는 학생이 존재하지 않는 경우', async () => {
+      signInRequestBodyDto.email = 'notExistEmail';
+
+      studentsService.findOneBy.mockResolvedValue(null);
+
+      await expect(service.signIn(signInRequestBodyDto)).rejects.toThrowError(
+        UnauthorizedException,
+      );
+    });
+
+    it('password 가 틀린 경우', async () => {
+      const email = 'existEmail';
+      signInRequestBodyDto.email = email;
+
+      studentsService.findOneBy.mockResolvedValue({
+        email,
+      });
+      encryption.compare.mockResolvedValue(false);
+
+      await expect(service.signIn(signInRequestBodyDto)).rejects.toThrowError(
+        ForbiddenException,
+      );
+    });
+
+    it('로그인 성공', async () => {
+      const email = 'existEmail';
+      signInRequestBodyDto.email = email;
+
+      studentsService.findOneBy.mockResolvedValue({
+        email,
+      });
+      encryption.compare.mockResolvedValue(true);
+
+      await expect(service.signIn(signInRequestBodyDto)).resolves.toEqual({
+        email,
+      });
     });
   });
 
