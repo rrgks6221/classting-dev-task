@@ -12,6 +12,7 @@ import { Student } from 'src/apis/auth/decorators/student.decorator';
 import { SignInRequestBodyDto } from 'src/apis/auth/dto/sign-in-request-body.dto';
 import { SignUpRequestBodyDto } from 'src/apis/auth/dto/sign-up-request-body.dto';
 import { JwtAuthGuard } from 'src/apis/auth/guards/jwt-auth.guard';
+import { StudentResponseDto } from 'src/apis/students/dto/student-response.dto';
 import { StudentEntity } from 'src/entities/student.entity';
 import { AuthService } from './auth.service';
 
@@ -23,7 +24,9 @@ export class AuthController {
   @UseGuards(JwtAuthGuard)
   @Get('profile')
   getProfile(@Student() student: StudentEntity) {
-    return student;
+    return {
+      student: new StudentResponseDto(student),
+    };
   }
 
   @ApiSignUp({ summary: '회원가입' })
@@ -36,7 +39,7 @@ export class AuthController {
 
     return {
       accessToken,
-      student: newStudent,
+      student: new StudentResponseDto(newStudent),
     };
   }
 
@@ -49,7 +52,7 @@ export class AuthController {
 
     return {
       accessToken,
-      student,
+      student: new StudentResponseDto(student),
     };
   }
 }

@@ -43,7 +43,7 @@ describe(AuthController.name, () => {
     it('프로필 조회 성공', () => {
       student.id = 1;
 
-      expect(controller.getProfile(student)).toEqual(student);
+      expect(controller.getProfile(student)).toEqual({ student });
     });
   });
 

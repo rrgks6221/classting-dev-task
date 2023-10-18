@@ -23,4 +23,10 @@ export class StudentResponseDto
 
   @Exclude()
   password: string;
+
+  constructor(student: Partial<StudentEntity> = {}) {
+    super();
+
+    Object.assign(this, student);
+  }
 }
