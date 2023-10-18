@@ -1,5 +1,6 @@
 import { HttpStatus, applyDecorators } from '@nestjs/common';
 import {
+  ApiBearerAuth,
   ApiExtraModels,
   ApiOperation,
   ApiResponse,
@@ -15,6 +16,7 @@ export const ApiGetProfile = (
   return applyDecorators(
     ApiExtraModels(StudentResponseDto),
     ApiOperation(apiOptions),
+    ApiBearerAuth(),
     ApiResponse({
       status: HttpStatus.OK,
       schema: {

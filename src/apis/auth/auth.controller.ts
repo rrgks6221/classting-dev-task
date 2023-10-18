@@ -7,7 +7,11 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { ApiSignIn, ApiSignUp } from 'src/apis/auth/auth.constroller.swagger';
+import {
+  ApiGetProfile,
+  ApiSignIn,
+  ApiSignUp,
+} from 'src/apis/auth/auth.constroller.swagger';
 import { Student } from 'src/apis/auth/decorators/student.decorator';
 import { SignInRequestBodyDto } from 'src/apis/auth/dto/sign-in-request-body.dto';
 import { SignUpRequestBodyDto } from 'src/apis/auth/dto/sign-up-request-body.dto';
@@ -21,6 +25,7 @@ import { AuthService } from './auth.service';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  @ApiGetProfile({ summary: '로그인한 학생 정보 조회' })
   @UseGuards(JwtAuthGuard)
   @Get('profile')
   getProfile(@Student() student: StudentEntity) {

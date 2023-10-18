@@ -36,6 +36,7 @@ async function bootstrap() {
       .setTitle('classting dev task')
       .setDescription('classting dev task')
       .setVersion('1.0')
+      .addBearerAuth()
       .build();
 
     const document = SwaggerModule.createDocument(app, swaggerConfig);
