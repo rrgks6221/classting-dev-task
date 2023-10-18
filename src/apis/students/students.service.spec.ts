@@ -1,9 +1,7 @@
 import { ConflictException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import bcrypt from 'bcrypt';
 import { CreateStudentDto } from 'src/apis/students/dto/create-student.dto';
-import { ENCRYPTION_TOKEN } from 'src/constants/token.constant';
 import { StudentEntity } from 'src/entities/student.entity';
 import { MockStudentRepository } from 'test/mock/mock.repository';
 import { StudentsService } from './students.service';
@@ -11,7 +9,6 @@ import { StudentsService } from './students.service';
 describe(StudentsService.name, () => {
   let service: StudentsService;
   let studentRepository: MockStudentRepository;
-  let encryption: { [key in keyof typeof bcrypt]: jest.Mock };
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -21,12 +18,6 @@ describe(StudentsService.name, () => {
           provide: getRepositoryToken(StudentEntity),
           useClass: MockStudentRepository,
         },
-        {
-          provide: ENCRYPTION_TOKEN,
-          useValue: {
-            hash: jest.fn(),
-          },
-        },
       ],
     }).compile();
 
@@ -34,8 +25,6 @@ describe(StudentsService.name, () => {
     studentRepository = module.get<MockStudentRepository>(
       getRepositoryToken(StudentEntity),
     );
-    encryption =
-      module.get<{ [key in keyof typeof bcrypt]: jest.Mock }>(ENCRYPTION_TOKEN);
   });
 
   afterEach(() => {
@@ -67,20 +56,14 @@ describe(StudentsService.name, () => {
         email: 'email',
         password: 'password',
       };
-      const hashedPassword = 'hashedPassword';
 
       studentRepository.findOne.mockResolvedValue(null);
       studentRepository.create.mockReturnValue(createStudentDto);
-      encryption.hash.mockResolvedValue(hashedPassword);
 
       await expect(service.create(createStudentDto)).resolves.toEqual(
         createStudentDto,
       );
-      expect(studentRepository.save).toBeCalledWith({
-        name: 'name',
-        email: 'email',
-        password: hashedPassword,
-      });
+      expect(studentRepository.save).toBeCalledWith(createStudentDto);
     });
   });
 
