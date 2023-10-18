@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Patch, Post } from '@nestjs/common';
-import { CreateSchoolDto } from './dto/create-school.dto';
+import { CreateSchoolRequestBodyDto } from './dto/create-school-request-body.dto';
 import { SchoolsService } from './schools.service';
 
 @Controller('api/schools')
@@ -7,8 +7,8 @@ export class SchoolsController {
   constructor(private readonly schoolsService: SchoolsService) {}
 
   @Post()
-  create(@Body() createSchoolDto: CreateSchoolDto) {
-    return this.schoolsService.create(createSchoolDto);
+  create(@Body() createSchoolRequestBodyDto: CreateSchoolRequestBodyDto) {
+    return this.schoolsService.create(createSchoolRequestBodyDto);
   }
 
   @Post()

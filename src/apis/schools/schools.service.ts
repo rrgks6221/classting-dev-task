@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { CreateSchoolDto } from './dto/create-school.dto';
+import { CreateSchoolRequestBodyDto } from './dto/create-school-request-body.dto';
 
 @Injectable()
 export class SchoolsService {
-  create(createSchoolDto: CreateSchoolDto) {
+  create(createSchoolRequestBodyDto: CreateSchoolRequestBodyDto) {
     return 'This action adds a new school';
   }
 
