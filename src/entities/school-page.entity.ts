@@ -4,12 +4,12 @@ import { SchoolNewsEntity } from 'src/entities/school-news.entity';
 import { SchoolSubscribeLinkEntity } from 'src/entities/school-subscribe-link.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity({ name: 'school' })
-export class SchoolEntity {
+@Entity({ name: 'school_page' })
+export class SchoolPageEntity {
   @PrimaryGeneratedColumn({
     type: 'int',
     name: 'id',
-    comment: '학교 고유 id',
+    comment: '학교 페이지 고유 id',
     unsigned: true,
   })
   id: number;
@@ -70,15 +70,18 @@ export class SchoolEntity {
   })
   updatedAt: Date;
 
-  @OneToMany(() => SchoolAdminLinkEntity, (schoolAdmin) => schoolAdmin.school)
+  @OneToMany(
+    () => SchoolAdminLinkEntity,
+    (schoolAdmin) => schoolAdmin.schoolPage,
+  )
   schoolAdmins: SchoolAdminLinkEntity[];
 
-  @OneToMany(() => SchoolNewsEntity, (schoolNews) => schoolNews.school)
+  @OneToMany(() => SchoolNewsEntity, (schoolNews) => schoolNews.schoolPage)
   schoolNewsList: SchoolNewsEntity[];
 
   @OneToMany(
     () => SchoolSubscribeLinkEntity,
-    (schoolSubscribe) => schoolSubscribe.school,
+    (schoolSubscribe) => schoolSubscribe.schoolPage,
   )
   schoolSubscribeList: SchoolSubscribeLinkEntity[];
 }

@@ -1,4 +1,4 @@
-import { SchoolEntity } from 'src/entities/school.entity';
+import { SchoolPageEntity } from 'src/entities/school-page.entity';
 import { StudentEntity } from 'src/entities/student.entity';
 import {
   Column,
@@ -29,10 +29,10 @@ export class SchoolAdminLinkEntity {
   @Column({
     type: 'int',
     unsigned: true,
-    name: 'school_id',
-    comment: '학교 고유 ID',
+    name: 'school_page_id',
+    comment: '학교 페이지 고유 ID',
   })
-  schoolId: number;
+  schoolPageId: number;
 
   @Column({
     type: 'timestamp',
@@ -42,12 +42,12 @@ export class SchoolAdminLinkEntity {
   })
   createdAt: Date;
 
-  @ManyToOne(() => SchoolEntity, (school) => school.schoolAdmins, {
+  @ManyToOne(() => SchoolPageEntity, (schoolPage) => schoolPage.schoolAdmins, {
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
   })
-  @JoinColumn([{ name: 'school_id', referencedColumnName: 'id' }])
-  school: SchoolEntity;
+  @JoinColumn([{ name: 'school_page_id', referencedColumnName: 'id' }])
+  schoolPage: SchoolPageEntity;
 
   @ManyToOne(() => StudentEntity, (student) => student.schoolAdmins, {
     onUpdate: 'CASCADE',
