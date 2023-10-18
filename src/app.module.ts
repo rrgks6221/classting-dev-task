@@ -3,10 +3,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppConfigModule } from 'src/config/app-config/app-config.module';
 import { TypeOrmConfigService } from 'src/config/external-config/typeorm-config.service';
 import { AuthModule } from './apis/auth/auth.module';
+import { SchoolPagesModule } from './apis/school-pages/school-pages.module';
+import { StudentsModule } from './apis/students/students.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { StudentsModule } from './apis/students/students.module';
-import { SchoolsModule } from './apis/schools/schools.module';
 
 @Module({
   imports: [
@@ -16,7 +16,7 @@ import { SchoolsModule } from './apis/schools/schools.module';
     }),
     AuthModule,
     StudentsModule,
-    SchoolsModule,
+    SchoolPagesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

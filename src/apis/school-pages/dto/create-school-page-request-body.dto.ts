@@ -1,12 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEnum, IsString, IsUrl, Length } from 'class-validator';
 import { SchoolType } from 'src/constants/school/school.enum';
-import { SchoolEntity } from 'src/entities/school.entity';
+import { SchoolPageEntity } from 'src/entities/school-page.entity';
 
-export class CreateSchoolRequestBodyDto
+export class CreateSchoolPageRequestBodyDto
   implements
     Pick<
-      SchoolEntity,
+      SchoolPageEntity,
       'name' | 'type' | 'address' | 'detailAddress' | 'websiteUrl'
     >
 {
