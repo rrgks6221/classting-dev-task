@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import bcrypt from 'bcrypt';
+import { JwtStrategy } from 'src/apis/auth/jwt/jwt.strategy';
 import { StudentsModule } from 'src/apis/students/students.module';
 import { ENV_KEY } from 'src/config/app-config/app-config.constant';
 import { AppConfigService } from 'src/config/app-config/app-config.service';
@@ -24,6 +25,7 @@ import { AuthService } from './auth.service';
   ],
   controllers: [AuthController],
   providers: [
+    JwtStrategy,
     AuthService,
     {
       provide: ENCRYPTION_TOKEN,

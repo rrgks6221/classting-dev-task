@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { SignInRequestBodyDto } from 'src/apis/auth/dto/sign-in-request-body.dto';
 import { SignUpRequestBodyDto } from 'src/apis/auth/dto/sign-up-request-body.dto';
+import { StudentEntity } from 'src/entities/student.entity';
 import { MockAuthService } from 'test/mock/mock.service';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
@@ -30,6 +31,20 @@ describe(AuthController.name, () => {
 
   it('should be defined', () => {
     expect(controller).toBeDefined();
+  });
+
+  describe(AuthController.prototype.getProfile.name, () => {
+    let student: StudentEntity;
+
+    beforeEach(() => {
+      student = new StudentEntity();
+    });
+
+    it('프로필 조회 성공', () => {
+      student.id = 1;
+
+      expect(controller.getProfile(student)).toEqual(student);
+    });
   });
 
   describe(AuthController.prototype.signUp.name, () => {

@@ -8,6 +8,27 @@ import {
 import { OperationObject } from '@nestjs/swagger/dist/interfaces/open-api-spec.interface';
 import { StudentResponseDto } from 'src/apis/students/dto/student-response.dto';
 
+export const ApiGetProfile = (
+  apiOptions: Required<Pick<OperationObject, 'summary'>> &
+    Partial<OperationObject>,
+) => {
+  return applyDecorators(
+    ApiExtraModels(StudentResponseDto),
+    ApiOperation(apiOptions),
+    ApiResponse({
+      status: HttpStatus.OK,
+      schema: {
+        properties: {
+          student: {
+            type: 'object',
+            $ref: getSchemaPath(StudentResponseDto),
+          },
+        },
+      },
+    }),
+  );
+};
+
 export const ApiSignUp = (
   apiOptions: Required<Pick<OperationObject, 'summary'>> &
     Partial<OperationObject>,
@@ -41,7 +62,7 @@ export const ApiSignIn = (
     ApiExtraModels(StudentResponseDto),
     ApiOperation(apiOptions),
     ApiResponse({
-      status: HttpStatus.CREATED,
+      status: HttpStatus.OK,
       schema: {
         properties: {
           student: {
