@@ -8,8 +8,8 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
-@Entity({ name: 'school_admin_link' })
-export class SchoolAdminLinkEntity {
+@Entity({ name: 'school_page_admin_link' })
+export class SchoolPageAdminLinkEntity {
   @PrimaryGeneratedColumn({
     type: 'int',
     name: 'id',
@@ -42,14 +42,18 @@ export class SchoolAdminLinkEntity {
   })
   createdAt: Date;
 
-  @ManyToOne(() => SchoolPageEntity, (schoolPage) => schoolPage.schoolAdmins, {
-    onUpdate: 'CASCADE',
-    onDelete: 'CASCADE',
-  })
+  @ManyToOne(
+    () => SchoolPageEntity,
+    (schoolPage) => schoolPage.schoolPageAdmins,
+    {
+      onUpdate: 'CASCADE',
+      onDelete: 'CASCADE',
+    },
+  )
   @JoinColumn([{ name: 'school_page_id', referencedColumnName: 'id' }])
   schoolPage: SchoolPageEntity;
 
-  @ManyToOne(() => StudentEntity, (student) => student.schoolAdmins, {
+  @ManyToOne(() => StudentEntity, (student) => student.schoolPageAdmins, {
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
   })
