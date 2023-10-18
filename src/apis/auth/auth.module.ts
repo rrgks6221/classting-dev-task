@@ -1,13 +1,17 @@
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
+import bcrypt from 'bcrypt';
+import { StudentsModule } from 'src/apis/students/students.module';
 import { ENV_KEY } from 'src/config/app-config/app-config.constant';
 import { AppConfigService } from 'src/config/app-config/app-config.service';
+import { ENCRYPTION_TOKEN } from 'src/constants/token.constant';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 
 @Module({
   imports: [
+    StudentsModule,
     PassportModule,
     JwtModule.registerAsync({
       useFactory: (appConfigService: AppConfigService) => {
@@ -19,6 +23,12 @@ import { AuthService } from './auth.service';
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService],
+  providers: [
+    AuthService,
+    {
+      provide: ENCRYPTION_TOKEN,
+      useValue: bcrypt,
+    },
+  ],
 })
 export class AuthModule {}
