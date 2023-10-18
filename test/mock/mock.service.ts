@@ -1,4 +1,5 @@
 import { ConfigService } from '@nestjs/config';
+import { StudentsService } from 'src/apis/students/students.service';
 import { AppConfigService } from 'src/config/app-config/app-config.service';
 import { MockClass } from 'test/mock/mock.type';
 
@@ -14,4 +15,9 @@ export class MockAppConfigService implements MockClass<AppConfigService> {
   getAllMap = jest.fn();
   isLocal = jest.fn();
   isProduction = jest.fn();
+}
+
+export class MockStudentsService implements MockClass<StudentsService> {
+  create = jest.fn();
+  findOneBy = jest.fn();
 }
