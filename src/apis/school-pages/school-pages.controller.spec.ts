@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { CreateSchoolPageNewsRequestBodyDto } from 'src/apis/school-pages/dto/create-school-page-news-request-body.dto';
 import { CreateSchoolPageRequestBodyDto } from 'src/apis/school-pages/dto/create-school-page-request-body.dto';
+import { FindAllSchoolPageNewsRequestQueryDto } from 'src/apis/school-pages/dto/find-all-school-page-news-request-query.dto';
 import { FindAllSchoolPageRequestQueryDto } from 'src/apis/school-pages/dto/find-all-school-page-request-query.dto';
 import { PartialUpdateSchoolPageNewsRequestBodyDto } from 'src/apis/school-pages/dto/partial-update-school-page-news-request-body.dto';
 import { SchoolType } from 'src/constants/school/school.enum';
@@ -187,6 +188,39 @@ describe(SchoolPagesController.name, () => {
         ),
       ).resolves.toEqual({
         schoolPageNews: newSchoolPageNews,
+      });
+    });
+  });
+
+  describe(SchoolPagesController.prototype.findAllAndCountNews.name, () => {
+    let schoolPageId: number;
+    let findAllSchoolPageNewsRequestQueryDto: FindAllSchoolPageNewsRequestQueryDto;
+
+    beforeEach(() => {
+      schoolPageId = NaN;
+      findAllSchoolPageNewsRequestQueryDto =
+        new FindAllSchoolPageRequestQueryDto();
+    });
+
+    it('뉴스 전체 조회 성공', async () => {
+      schoolPageId = 1;
+
+      const newsList = [
+        {
+          id: 1,
+        },
+      ];
+
+      schoolPagesService.findAllAndCountNews.mockResolvedValue([newsList, 1]);
+
+      await expect(
+        controller.findAllAndCountNews(
+          schoolPageId,
+          findAllSchoolPageNewsRequestQueryDto,
+        ),
+      ).resolves.toEqual({
+        schoolPageNewsList: newsList,
+        totalCount: 1,
       });
     });
   });

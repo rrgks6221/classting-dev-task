@@ -208,7 +208,6 @@ export class SchoolPagesService {
   }
 
   async findAllAndCountNews(
-    studentId: number,
     schoolPageId: number,
     findAllSchoolPageNewsRequestQueryDto: FindAllSchoolPageNewsRequestQueryDto,
   ) {

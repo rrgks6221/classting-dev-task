@@ -165,14 +165,12 @@ export class SchoolPagesController {
   @UseGuards(JwtAuthGuard)
   @Get(':schoolPageId/news')
   async findAllAndCountNews(
-    @Student() student: StudentEntity,
     @Param('schoolPageId', ParsePositiveIntPipe) schoolPageId: number,
     @Query()
     findAllSchoolPageNewsRequestQueryDto: FindAllSchoolPageNewsRequestQueryDto,
   ) {
     const [schoolPageNewsList, totalCount] =
       await this.schoolPagesService.findAllAndCountNews(
-        student.id,
         schoolPageId,
         findAllSchoolPageNewsRequestQueryDto,
       );
