@@ -1,4 +1,4 @@
-import { SchoolNewsEntity } from 'src/entities/school-news.entity';
+import { SchoolPageNewsEntity } from 'src/entities/school-news.entity';
 import { SchoolPageAdminLinkEntity } from 'src/entities/school-page-admin-link.entity';
 import { SchoolPageSubscribeLinkEntity } from 'src/entities/school-page-subscribe-link.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
@@ -59,8 +59,11 @@ export class StudentEntity {
   )
   schoolPageAdmins: SchoolPageAdminLinkEntity[];
 
-  @OneToMany(() => SchoolNewsEntity, (schoolNews) => schoolNews.student)
-  schoolNewsList: SchoolNewsEntity[];
+  @OneToMany(
+    () => SchoolPageNewsEntity,
+    (schoolPageNews) => schoolPageNews.student,
+  )
+  schoolPageNewsList: SchoolPageNewsEntity[];
 
   @OneToMany(
     () => SchoolPageSubscribeLinkEntity,

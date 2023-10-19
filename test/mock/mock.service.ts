@@ -1,5 +1,6 @@
 import { ConfigService } from '@nestjs/config';
 import { AuthService } from 'src/apis/auth/auth.service';
+import { SchoolPagesService } from 'src/apis/school-pages/school-pages.service';
 import { StudentsService } from 'src/apis/students/students.service';
 import { AppConfigService } from 'src/config/app-config/app-config.service';
 import { MockClass } from 'test/mock/mock.type';
@@ -27,4 +28,14 @@ export class MockAuthService implements MockClass<AuthService> {
 export class MockStudentsService implements MockClass<StudentsService> {
   create = jest.fn();
   findOneBy = jest.fn();
+}
+
+export class MockSchoolPagesService implements MockClass<SchoolPagesService> {
+  findOneNewsOrNotFound = jest.fn();
+  findOneOrNotFound = jest.fn();
+  findOneSchoolPageAdminOrForbidden = jest.fn();
+  create = jest.fn();
+  createNews = jest.fn();
+  partialUpdateNews = jest.fn();
+  removeNews = jest.fn();
 }

@@ -1,3 +1,5 @@
+import { Repository } from 'typeorm';
+
 const createMockRepository = () => {
   return class {
     create = jest.fn();
@@ -13,4 +15,30 @@ const createMockRepository = () => {
   };
 };
 
+export class MockDataSource {
+  createQueryRunner() {
+    return {
+      isTransactionActive: jest.fn(),
+      isReleased: jest.fn(),
+      connect: jest.fn(),
+      startTransaction: jest.fn(),
+      commitTransaction: jest.fn(),
+      rollbackTransaction: jest.fn(),
+      release: jest.fn(),
+      manager: {
+        withRepository: (repository: Repository<any>) => {
+          return repository;
+        },
+        create: jest.fn(),
+      },
+    };
+  }
+}
+
 export class MockStudentRepository extends createMockRepository() {}
+
+export class MockSchoolPageRepository extends createMockRepository() {}
+
+export class MockSchoolPageAdminLinkRepository extends createMockRepository() {}
+
+export class MockSchoolPageNewsRepository extends createMockRepository() {}
