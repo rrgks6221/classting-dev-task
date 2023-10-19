@@ -63,6 +63,42 @@ describe(SchoolPagesController.name, () => {
     });
   });
 
+  describe(SchoolPagesService.prototype.subscribe.name, () => {
+    let student: StudentEntity;
+    let schoolPageId: number;
+
+    beforeEach(() => {
+      student = new StudentEntity();
+      schoolPageId = NaN;
+    });
+
+    it('학교 페이지 구독 성공', async () => {
+      schoolPagesService.subscribe.mockResolvedValue(undefined);
+
+      await expect(
+        controller.subscribe(student, schoolPageId),
+      ).resolves.toBeUndefined();
+    });
+  });
+
+  describe(SchoolPagesService.prototype.unsubscribe.name, () => {
+    let student: StudentEntity;
+    let schoolPageId: number;
+
+    beforeEach(() => {
+      student = new StudentEntity();
+      schoolPageId = NaN;
+    });
+
+    it('학교 페이지 구독 취소 성공', async () => {
+      schoolPagesService.unsubscribe.mockResolvedValue(undefined);
+
+      await expect(
+        controller.unsubscribe(student, schoolPageId),
+      ).resolves.toBeUndefined();
+    });
+  });
+
   describe(SchoolPagesService.prototype.createNews.name, () => {
     let student: StudentEntity;
     let schoolPageId: number;

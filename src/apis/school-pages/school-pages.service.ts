@@ -11,6 +11,7 @@ import { CreateSchoolPageRequestBodyDto } from 'src/apis/school-pages/dto/create
 import { PartialUpdateSchoolPageNewsRequestBodyDto } from 'src/apis/school-pages/dto/partial-update-school-page-news-request-body.dto';
 import { SchoolPageNewsEntity } from 'src/entities/school-news.entity';
 import { SchoolPageAdminLinkEntity } from 'src/entities/school-page-admin-link.entity';
+import { SchoolPageSubscribeLinkEntity } from 'src/entities/school-page-subscribe-link.entity';
 import { SchoolPageEntity } from 'src/entities/school-page.entity';
 import { DataSource, FindOptionsWhere, Repository } from 'typeorm';
 
@@ -24,6 +25,8 @@ export class SchoolPagesService {
     private readonly schoolPageAdminLinkRepository: Repository<SchoolPageAdminLinkEntity>,
     @InjectRepository(SchoolPageNewsEntity)
     private readonly schoolPageNewsRepository: Repository<SchoolPageNewsEntity>,
+    @InjectRepository(SchoolPageSubscribeLinkEntity)
+    private readonly schoolPageSubscribeLinkRepository: Repository<SchoolPageSubscribeLinkEntity>,
   ) {}
 
   async create(
@@ -92,6 +95,54 @@ export class SchoolPagesService {
     }
 
     return existSchoolPage;
+  }
+
+  async subscribe(studentId: number, schoolPageId: number): Promise<void> {
+    await this.findOneOrNotFound({ id: schoolPageId });
+
+    const alreadySubscribe =
+      await this.schoolPageSubscribeLinkRepository.findOne({
+        select: {
+          id: true,
+        },
+        where: {
+          schoolPageId,
+          studentId,
+        },
+      });
+
+    if (alreadySubscribe) {
+      throw new ConflictException('이미 구독중입니다.');
+    }
+
+    await this.schoolPageSubscribeLinkRepository.save({
+      schoolPageId,
+      studentId,
+    });
+  }
+
+  async unsubscribe(studentId: number, schoolPageId: number): Promise<void> {
+    await this.findOneOrNotFound({ id: schoolPageId });
+
+    const alreadySubscribe =
+      await this.schoolPageSubscribeLinkRepository.findOne({
+        select: {
+          id: true,
+        },
+        where: {
+          schoolPageId,
+          studentId,
+        },
+      });
+
+    if (!alreadySubscribe) {
+      throw new ConflictException('구독중이 아닙니다.');
+    }
+
+    await this.schoolPageSubscribeLinkRepository.delete({
+      schoolPageId,
+      studentId,
+    });
   }
 
   async findOneSchoolPageAdminOrForbidden(
