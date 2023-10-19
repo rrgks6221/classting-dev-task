@@ -9,6 +9,7 @@ export class PageDto {
     description: '페이지번호',
     type: 'number',
     format: 'integer',
+    default: 1,
   })
   @IsOptional()
   @IsInt()
@@ -19,6 +20,7 @@ export class PageDto {
     description: '페이지당 아이템 수',
     type: 'number',
     format: 'integer',
+    default: DEFAULT_PAGE_SIZE,
   })
   @IsOptional()
   @IsInt()

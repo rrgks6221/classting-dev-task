@@ -87,6 +87,10 @@ export class SchoolPagesService {
     }
   }
 
+  async findAllAndCount() {
+    return;
+  }
+
   async findOneOrNotFound(where: FindOptionsWhere<SchoolPageEntity>) {
     const existSchoolPage = await this.schoolPageRepository.findOneBy(where);
 
