@@ -72,7 +72,7 @@ describe(SchoolPagesController.name, () => {
       schoolPageId = NaN;
     });
 
-    it('학교 페이지 구독', async () => {
+    it('학교 페이지 구독 성공', async () => {
       schoolPagesService.subscribe.mockResolvedValue(undefined);
 
       await expect(
@@ -90,7 +90,7 @@ describe(SchoolPagesController.name, () => {
       schoolPageId = NaN;
     });
 
-    it('뉴스 수정 성공', async () => {
+    it('학교 페이지 구독 취소 성공', async () => {
       schoolPagesService.unsubscribe.mockResolvedValue(undefined);
 
       await expect(
