@@ -16,6 +16,7 @@ import { Student } from 'src/apis/auth/decorators/student.decorator';
 import { JwtAuthGuard } from 'src/apis/auth/guards/jwt-auth.guard';
 import { CreateSchoolPageNewsRequestBodyDto } from 'src/apis/school-pages/dto/create-school-page-news-request-body.dto';
 import { CreateSchoolPageRequestBodyDto } from 'src/apis/school-pages/dto/create-school-page-request-body.dto';
+import { FindAllSchoolPageNewsRequestQueryDto } from 'src/apis/school-pages/dto/find-all-school-page-news-request-query.dto';
 import { FindAllSchoolPageRequestQueryDto } from 'src/apis/school-pages/dto/find-all-school-page-request-query.dto';
 import { PartialUpdateSchoolPageNewsRequestBodyDto } from 'src/apis/school-pages/dto/partial-update-school-page-news-request-body.dto';
 import { SchoolPageNewsResponseDto } from 'src/apis/school-pages/dto/school-page-news-response.dto';
@@ -24,6 +25,7 @@ import {
   ApiSchoolPageCreate,
   ApiSchoolPageCreateNews,
   ApiSchoolPageFindAllAndCount,
+  ApiSchoolPageFindAllAndCountNews,
   ApiSchoolPageFindOne,
   ApiSchoolPagePartialUpdateNews,
   ApiSchoolPageRemoveNews,
@@ -153,6 +155,31 @@ export class SchoolPagesController {
 
     return {
       schoolPageNews: new SchoolPageNewsResponseDto(newSchoolPageNews),
+    };
+  }
+
+  @ApiSchoolPageFindAllAndCountNews({
+    summary: '학교 페이지 뉴스 전체 조회',
+    description: '구독중이 아니라도 뉴스 조회는 가능하다고 가정한다.',
+  })
+  @UseGuards(JwtAuthGuard)
+  @Get(':schoolPageId/news')
+  async findAllAndCountNews(
+    @Student() student: StudentEntity,
+    @Param('schoolPageId', ParsePositiveIntPipe) schoolPageId: number,
+    @Query()
+    findAllSchoolPageNewsRequestQueryDto: FindAllSchoolPageNewsRequestQueryDto,
+  ) {
+    const [schoolPageNewsList, totalCount] =
+      await this.schoolPagesService.findAllAndCountNews(
+        student.id,
+        schoolPageId,
+        findAllSchoolPageNewsRequestQueryDto,
+      );
+
+    return {
+      schoolPageNewsList,
+      totalCount,
     };
   }
 

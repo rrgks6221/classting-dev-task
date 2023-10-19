@@ -129,6 +129,33 @@ export const ApiSchoolPageCreateNews = (
   );
 };
 
+export const ApiSchoolPageFindAllAndCountNews = (
+  apiOptions: Required<Pick<OperationObject, 'summary'>> &
+    Partial<OperationObject>,
+) => {
+  return applyDecorators(
+    ApiExtraModels(SchoolPageNewsResponseDto),
+    ApiOperation(apiOptions),
+    ApiBearerAuth(),
+    ApiResponse({
+      status: HttpStatus.OK,
+      schema: {
+        properties: {
+          schoolPageNewsList: {
+            items: {
+              type: 'object',
+              $ref: getSchemaPath(SchoolPageNewsResponseDto),
+            },
+          },
+          totalCount: {
+            type: 'number',
+          },
+        },
+      },
+    }),
+  );
+};
+
 export const ApiSchoolPagePartialUpdateNews = (
   apiOptions: Required<Pick<OperationObject, 'summary'>> &
     Partial<OperationObject>,
