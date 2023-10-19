@@ -3,8 +3,8 @@ import { SignInRequestBodyDto } from 'src/apis/auth/dto/sign-in-request-body.dto
 import { SignUpRequestBodyDto } from 'src/apis/auth/dto/sign-up-request-body.dto';
 import { StudentEntity } from 'src/entities/student.entity';
 import { MockAuthService } from 'test/mock/mock.service';
+import { AuthService } from '../services/auth.service';
 import { AuthController } from './auth.controller';
-import { AuthService } from './auth.service';
 
 describe(AuthController.name, () => {
   let controller: AuthController;

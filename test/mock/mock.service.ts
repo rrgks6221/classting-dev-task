@@ -1,5 +1,5 @@
 import { ConfigService } from '@nestjs/config';
-import { AuthService } from 'src/apis/auth/auth.service';
+import { AuthService } from 'src/apis/auth/services/auth.service';
 import { SchoolPagesService } from 'src/apis/school-pages/school-pages.service';
 import { StudentsService } from 'src/apis/students/students.service';
 import { AppConfigService } from 'src/config/app-config/app-config.service';

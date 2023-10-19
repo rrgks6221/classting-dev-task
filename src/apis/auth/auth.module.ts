@@ -7,8 +7,8 @@ import { StudentsModule } from 'src/apis/students/students.module';
 import { ENV_KEY } from 'src/config/app-config/app-config.constant';
 import { AppConfigService } from 'src/config/app-config/app-config.service';
 import { ENCRYPTION_TOKEN } from 'src/constants/token.constant';
-import { AuthController } from './auth.controller';
-import { AuthService } from './auth.service';
+import { AuthController } from './controllers/auth.controller';
+import { AuthService } from './services/auth.service';
 
 @Module({
   imports: [
