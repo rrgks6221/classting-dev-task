@@ -29,20 +29,16 @@ async function bootstrap() {
 
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
 
-  const isProduction = appConfigService.isProduction();
+  const swaggerConfig = new DocumentBuilder()
+    .setTitle('classting dev task')
+    .setDescription('classting dev task')
+    .setVersion('1.0')
+    .addBearerAuth()
+    .build();
 
-  if (!isProduction) {
-    const swaggerConfig = new DocumentBuilder()
-      .setTitle('classting dev task')
-      .setDescription('classting dev task')
-      .setVersion('1.0')
-      .addBearerAuth()
-      .build();
+  const document = SwaggerModule.createDocument(app, swaggerConfig);
 
-    const document = SwaggerModule.createDocument(app, swaggerConfig);
-
-    SwaggerModule.setup('api-docs', app, document);
-  }
+  SwaggerModule.setup('api-docs', app, document);
 
   const PORT = appConfigService.get<number>(ENV_KEY.PORT);
 
