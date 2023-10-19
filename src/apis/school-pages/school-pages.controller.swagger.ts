@@ -32,6 +32,33 @@ export const ApiSchoolPageCreate = (
   );
 };
 
+export const ApiSchoolPageFindAllAndCount = (
+  apiOptions: Required<Pick<OperationObject, 'summary'>> &
+    Partial<OperationObject>,
+) => {
+  return applyDecorators(
+    ApiExtraModels(SchoolPageResponseDto),
+    ApiOperation(apiOptions),
+    ApiBearerAuth(),
+    ApiResponse({
+      status: HttpStatus.CREATED,
+      schema: {
+        properties: {
+          schoolPages: {
+            items: {
+              type: 'object',
+              $ref: getSchemaPath(SchoolPageResponseDto),
+            },
+          },
+          totalCount: {
+            type: 'number',
+          },
+        },
+      },
+    }),
+  );
+};
+
 export const ApiSchoolPageSubscribe = (
   apiOptions: Required<Pick<OperationObject, 'summary'>> &
     Partial<OperationObject>,

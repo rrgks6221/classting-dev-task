@@ -8,6 +8,7 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateSchoolPageNewsRequestBodyDto } from 'src/apis/school-pages/dto/create-school-page-news-request-body.dto';
 import { CreateSchoolPageRequestBodyDto } from 'src/apis/school-pages/dto/create-school-page-request-body.dto';
+import { FindAllSchoolPageRequestQueryDto } from 'src/apis/school-pages/dto/find-all-school-page-request-query.dto';
 import { PartialUpdateSchoolPageNewsRequestBodyDto } from 'src/apis/school-pages/dto/partial-update-school-page-news-request-body.dto';
 import { SchoolPageNewsEntity } from 'src/entities/school-news.entity';
 import { SchoolPageAdminLinkEntity } from 'src/entities/school-page-admin-link.entity';
@@ -87,8 +88,31 @@ export class SchoolPagesService {
     }
   }
 
-  async findAllAndCount() {
-    return;
+  async findAllAndCount(
+    studentId: number,
+    findAllSchoolPageRequestQueryDto: FindAllSchoolPageRequestQueryDto,
+  ) {
+    const { page, pageSize, sortBy, orderBy, type, isSubscribe } =
+      findAllSchoolPageRequestQueryDto;
+
+    const where: FindOptionsWhere<SchoolPageEntity> = {
+      type,
+      schoolPageSubscribeList: isSubscribe
+        ? {
+            studentId,
+          }
+        : undefined,
+    };
+
+    const [schoolPages, totalCount] =
+      await this.schoolPageRepository.findAndCount({
+        where,
+        order: { [sortBy || 'id']: orderBy || 'DESC' },
+        skip: page * pageSize,
+        take: pageSize,
+      });
+
+    return [schoolPages, totalCount];
   }
 
   async findOneOrNotFound(where: FindOptionsWhere<SchoolPageEntity>) {

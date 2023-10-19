@@ -23,6 +23,7 @@ import { SchoolPageResponseDto } from 'src/apis/school-pages/dto/school-page-res
 import {
   ApiSchoolPageCreate,
   ApiSchoolPageCreateNews,
+  ApiSchoolPageFindAllAndCount,
   ApiSchoolPagePartialUpdateNews,
   ApiSchoolPageRemoveNews,
   ApiSchoolPageSubscribe,
@@ -60,12 +61,29 @@ export class SchoolPagesController {
     };
   }
 
+  /**
+   * 비회원 유저는 페이지 서비스 사용이 불가능하다고 가정한다.
+   */
+  @ApiSchoolPageFindAllAndCount({
+    summary: '학교 페이지 전체 조회',
+    description: '비회원 유저는 페이지 서비스 사용이 불가능하다고 가정한다.',
+  })
   @Get()
+  @UseGuards(JwtAuthGuard)
   async findAllAndCount(
+    @Student() student: StudentEntity,
     @Query() findAllSchoolPageRequestQueryDto: FindAllSchoolPageRequestQueryDto,
-  ): Promise<void> {
-    console.log(findAllSchoolPageRequestQueryDto);
-    return;
+  ) {
+    const [schoolPages, totalCount] =
+      await this.schoolPagesService.findAllAndCount(
+        student.id,
+        findAllSchoolPageRequestQueryDto,
+      );
+
+    return {
+      schoolPages,
+      totalCount,
+    };
   }
 
   @ApiSchoolPageSubscribe({ summary: '학교 페이지 구독' })

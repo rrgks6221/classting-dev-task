@@ -32,7 +32,7 @@ export class FindAllSchoolPageRequestQueryDto extends PageDto {
   })
   @IsIn(['id', 'type', 'createdAt'])
   @IsOptional()
-  orderBy: keyof Pick<SchoolPageEntity, 'id' | 'type' | 'createdAt'> = 'id';
+  sortBy: keyof Pick<SchoolPageEntity, 'id' | 'type' | 'createdAt'> = 'id';
 
   @ApiPropertyOptional({
     description: '정렬 방법 (ASC: 오름차순, DESC: 내림차순)',
@@ -41,5 +41,5 @@ export class FindAllSchoolPageRequestQueryDto extends PageDto {
   })
   @IsIn([SortBy.Asc, SortBy.Desc])
   @IsOptional()
-  sortBy: SortBy = SortBy.Asc;
+  orderBy: SortBy = SortBy.Asc;
 }
