@@ -4,15 +4,18 @@
 
 학교 소식 뉴스피드를 위한 서버
 
-## Document
+## API Document
 
-Todo
+Swagger OAS 3.0
 
 ## Usage
 
 ```bash
 # clone repository
 $ git clone https://github.com/rrgks6221/classting-dev-task
+
+# change directory
+$ cd classting-dev-task/
 
 # dependency install
 $ npm i
