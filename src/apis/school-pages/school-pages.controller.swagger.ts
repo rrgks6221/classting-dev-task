@@ -45,6 +45,7 @@ export const ApiSchoolPageFindAllAndCount = (
       schema: {
         properties: {
           schoolPages: {
+            type: 'array',
             items: {
               type: 'object',
               $ref: getSchemaPath(SchoolPageResponseDto),
@@ -142,6 +143,7 @@ export const ApiSchoolPageFindAllAndCountNews = (
       schema: {
         properties: {
           schoolPageNewsList: {
+            type: 'array',
             items: {
               type: 'object',
               $ref: getSchemaPath(SchoolPageNewsResponseDto),
