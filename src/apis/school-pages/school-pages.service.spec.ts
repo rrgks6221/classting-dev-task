@@ -10,12 +10,14 @@ import { CreateSchoolPageRequestBodyDto } from 'src/apis/school-pages/dto/create
 import { PartialUpdateSchoolPageNewsRequestBodyDto } from 'src/apis/school-pages/dto/partial-update-school-page-news-request-body.dto';
 import { SchoolPageNewsEntity } from 'src/entities/school-news.entity';
 import { SchoolPageAdminLinkEntity } from 'src/entities/school-page-admin-link.entity';
+import { SchoolPageSubscribeLinkEntity } from 'src/entities/school-page-subscribe-link.entity';
 import { SchoolPageEntity } from 'src/entities/school-page.entity';
 import {
   MockDataSource,
   MockSchoolPageAdminLinkRepository,
   MockSchoolPageNewsRepository,
   MockSchoolPageRepository,
+  MockSchoolPageSubscribeLinkRepository,
 } from 'test/mock/mock.repository';
 import { DataSource } from 'typeorm';
 import { SchoolPagesService } from './school-pages.service';
@@ -26,6 +28,7 @@ describe(SchoolPagesService.name, () => {
   let schoolPageRepository: MockSchoolPageRepository;
   let schoolPageAdminLinkRepository: MockSchoolPageAdminLinkRepository;
   let schoolPageNewsRepository: MockSchoolPageNewsRepository;
+  let schoolPageSubscribeLinkRepository: MockSchoolPageSubscribeLinkRepository;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -47,6 +50,10 @@ describe(SchoolPagesService.name, () => {
           provide: getRepositoryToken(SchoolPageNewsEntity),
           useClass: MockSchoolPageNewsRepository,
         },
+        {
+          provide: getRepositoryToken(SchoolPageSubscribeLinkEntity),
+          useClass: MockSchoolPageSubscribeLinkRepository,
+        },
       ],
     }).compile();
 
@@ -62,6 +69,10 @@ describe(SchoolPagesService.name, () => {
     schoolPageNewsRepository = module.get<MockSchoolPageNewsRepository>(
       getRepositoryToken(SchoolPageNewsEntity),
     );
+    schoolPageSubscribeLinkRepository =
+      module.get<MockSchoolPageSubscribeLinkRepository>(
+        getRepositoryToken(SchoolPageSubscribeLinkEntity),
+      );
   });
 
   it('should be defined', () => {
@@ -144,6 +155,74 @@ describe(SchoolPagesService.name, () => {
       await expect(service.findOneOrNotFound({ id: 1 })).resolves.toEqual({
         id: 1,
       });
+    });
+  });
+
+  describe(SchoolPagesService.prototype.subscribe.name, () => {
+    let studentId: number;
+    let schoolPageId: number;
+
+    beforeEach(() => {
+      studentId = NaN;
+      schoolPageId = NaN;
+    });
+
+    it('이미 구독중인 경우', async () => {
+      studentId = 1;
+      schoolPageId = 2;
+
+      schoolPageRepository.findOneBy.mockResolvedValue({ id: schoolPageId });
+      schoolPageSubscribeLinkRepository.findOne.mockResolvedValue({ id: 3 });
+
+      await expect(
+        service.subscribe(studentId, schoolPageId),
+      ).rejects.toThrowError(ConflictException);
+    });
+
+    it('구독중이 아니면 구독 성공', async () => {
+      studentId = 1;
+      schoolPageId = 2;
+
+      schoolPageRepository.findOneBy.mockResolvedValue({ id: schoolPageId });
+      schoolPageSubscribeLinkRepository.findOne.mockResolvedValue(null);
+
+      await expect(
+        service.subscribe(studentId, schoolPageId),
+      ).resolves.toBeUndefined();
+    });
+  });
+
+  describe(SchoolPagesService.prototype.unsubscribe.name, () => {
+    let studentId: number;
+    let schoolPageId: number;
+
+    beforeEach(() => {
+      studentId = NaN;
+      schoolPageId = NaN;
+    });
+
+    it('구독중이 아닌 경우', async () => {
+      studentId = 1;
+      schoolPageId = 2;
+
+      schoolPageRepository.findOneBy.mockResolvedValue({ id: schoolPageId });
+      schoolPageSubscribeLinkRepository.findOne.mockResolvedValue(null);
+
+      await expect(
+        service.unsubscribe(studentId, schoolPageId),
+      ).rejects.toThrowError(ConflictException);
+    });
+
+    it('구독중이라면 구독 취소 성공', async () => {
+      studentId = 1;
+      schoolPageId = 2;
+
+      schoolPageRepository.findOneBy.mockResolvedValue({ id: schoolPageId });
+      schoolPageSubscribeLinkRepository.findOne.mockResolvedValue({ id: 3 });
+
+      await expect(
+        service.unsubscribe(studentId, schoolPageId),
+      ).resolves.toBeUndefined();
     });
   });
 
