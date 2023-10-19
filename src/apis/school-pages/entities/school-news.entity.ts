@@ -1,4 +1,4 @@
-import { SchoolPageEntity } from 'src/entities/school-page.entity';
+import { SchoolPageEntity } from 'src/apis/school-pages/entities/school-page.entity';
 import { StudentEntity } from 'src/entities/student.entity';
 import {
   Column,

@@ -1,7 +1,7 @@
-import { SchoolType } from 'src/constants/school/school.enum';
-import { SchoolPageNewsEntity } from 'src/entities/school-news.entity';
-import { SchoolPageAdminLinkEntity } from 'src/entities/school-page-admin-link.entity';
-import { SchoolPageSubscribeLinkEntity } from 'src/entities/school-page-subscribe-link.entity';
+import { SchoolPageType } from 'src/apis/school-pages/constants/school-page.enum';
+import { SchoolPageNewsEntity } from 'src/apis/school-pages/entities/school-news.entity';
+import { SchoolPageAdminLinkEntity } from 'src/apis/school-pages/entities/school-page-admin-link.entity';
+import { SchoolPageSubscribeLinkEntity } from 'src/apis/school-pages/entities/school-page-subscribe-link.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity({ name: 'school_page' })
@@ -28,7 +28,7 @@ export class SchoolPageEntity {
     name: 'type',
     comment: '학교 타입',
   })
-  type: SchoolType;
+  type: SchoolPageType;
 
   @Column({
     type: 'varchar',

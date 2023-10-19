@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { SchoolPageNewsEntity } from 'src/apis/school-pages/entities/school-news.entity';
+import { SchoolPageEntity } from 'src/apis/school-pages/entities/school-page.entity';
 import { BaseResponseDto } from 'src/common/dto/base-response.dto';
-import { SchoolPageNewsEntity } from 'src/entities/school-news.entity';
-import { SchoolPageEntity } from 'src/entities/school-page.entity';
 
 export class SchoolPageNewsResponseDto
   extends BaseResponseDto

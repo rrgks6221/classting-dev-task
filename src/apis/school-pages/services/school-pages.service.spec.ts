@@ -10,10 +10,10 @@ import { CreateSchoolPageRequestBodyDto } from 'src/apis/school-pages/dto/create
 import { FindAllSchoolPageNewsRequestQueryDto } from 'src/apis/school-pages/dto/find-all-school-page-news-request-query.dto';
 import { FindAllSchoolPageRequestQueryDto } from 'src/apis/school-pages/dto/find-all-school-page-request-query.dto';
 import { PartialUpdateSchoolPageNewsRequestBodyDto } from 'src/apis/school-pages/dto/partial-update-school-page-news-request-body.dto';
-import { SchoolPageNewsEntity } from 'src/entities/school-news.entity';
-import { SchoolPageAdminLinkEntity } from 'src/entities/school-page-admin-link.entity';
-import { SchoolPageSubscribeLinkEntity } from 'src/entities/school-page-subscribe-link.entity';
-import { SchoolPageEntity } from 'src/entities/school-page.entity';
+import { SchoolPageNewsEntity } from 'src/apis/school-pages/entities/school-news.entity';
+import { SchoolPageAdminLinkEntity } from 'src/apis/school-pages/entities/school-page-admin-link.entity';
+import { SchoolPageSubscribeLinkEntity } from 'src/apis/school-pages/entities/school-page-subscribe-link.entity';
+import { SchoolPageEntity } from 'src/apis/school-pages/entities/school-page.entity';
 import {
   MockDataSource,
   MockSchoolPageAdminLinkRepository,
@@ -22,7 +22,7 @@ import {
   MockSchoolPageSubscribeLinkRepository,
 } from 'test/mock/mock.repository';
 import { DataSource } from 'typeorm';
-import { SchoolPagesService } from './school-pages.service';
+import { SchoolPagesService } from '../school-pages.service';
 
 describe(SchoolPagesService.name, () => {
   let service: SchoolPagesService;

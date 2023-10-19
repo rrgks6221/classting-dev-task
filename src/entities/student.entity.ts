@@ -1,6 +1,6 @@
-import { SchoolPageNewsEntity } from 'src/entities/school-news.entity';
-import { SchoolPageAdminLinkEntity } from 'src/entities/school-page-admin-link.entity';
-import { SchoolPageSubscribeLinkEntity } from 'src/entities/school-page-subscribe-link.entity';
+import { SchoolPageNewsEntity } from 'src/apis/school-pages/entities/school-news.entity';
+import { SchoolPageAdminLinkEntity } from 'src/apis/school-pages/entities/school-page-admin-link.entity';
+import { SchoolPageSubscribeLinkEntity } from 'src/apis/school-pages/entities/school-page-subscribe-link.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity({ name: 'student' })

@@ -1,8 +1,8 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { IsIn, IsOptional } from 'class-validator';
+import { SchoolPageEntity } from 'src/apis/school-pages/entities/school-page.entity';
 import { PageDto } from 'src/common/dto/page.dto';
 import { SortBy } from 'src/constants/common.enum';
-import { SchoolPageEntity } from 'src/entities/school-page.entity';
 
 export class FindAllSchoolPageNewsRequestQueryDto extends PageDto {
   @ApiPropertyOptional({
