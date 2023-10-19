@@ -108,7 +108,7 @@ export class SchoolPagesController {
     };
   }
 
-  @ApiSchoolPagePartialUpdateNews({ summary: '학교 페이지 업데이트' })
+  @ApiSchoolPagePartialUpdateNews({ summary: '학교 페이지 뉴스 업데이트' })
   @UseGuards(JwtAuthGuard)
   @Patch(':schoolPageId/news/:newsId')
   async partialUpdateNews(
