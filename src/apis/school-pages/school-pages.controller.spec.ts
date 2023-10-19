@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { CreateSchoolPageNewsRequestBodyDto } from 'src/apis/school-pages/dto/create-school-page-news-request-body.dto';
 import { CreateSchoolPageRequestBodyDto } from 'src/apis/school-pages/dto/create-school-page-request-body.dto';
+import { PartialUpdateSchoolPageNewsRequestBodyDto } from 'src/apis/school-pages/dto/partial-update-school-page-news-request-body.dto';
 import { StudentEntity } from 'src/entities/student.entity';
 import { MockSchoolPagesService } from 'test/mock/mock.service';
 import { SchoolPagesController } from './school-pages.controller';
@@ -92,6 +93,46 @@ describe(SchoolPagesController.name, () => {
           student,
           schoolPageId,
           createSchoolPageNewRequestBodyDto,
+        ),
+      ).resolves.toEqual({
+        schoolPageNews: newSchoolPageNews,
+      });
+    });
+  });
+
+  describe(SchoolPagesService.prototype.partialUpdateNews.name, () => {
+    let student: StudentEntity;
+    let schoolPageId: number;
+    let newsId: number;
+    let partialUpdateSchoolPageNewsRequestBodyDto: PartialUpdateSchoolPageNewsRequestBodyDto;
+
+    beforeEach(() => {
+      student = new StudentEntity();
+      schoolPageId = NaN;
+      newsId: NaN;
+      partialUpdateSchoolPageNewsRequestBodyDto =
+        new PartialUpdateSchoolPageNewsRequestBodyDto();
+    });
+
+    it('뉴스 수정 성공', async () => {
+      student.id = 1;
+      schoolPageId = 2;
+      partialUpdateSchoolPageNewsRequestBodyDto.title = 'updated title';
+
+      const newSchoolPageNews = {
+        id: 3,
+        title: 'title',
+        description: 'description',
+      };
+
+      schoolPagesService.partialUpdateNews.mockResolvedValue(newSchoolPageNews);
+
+      await expect(
+        controller.partialUpdateNews(
+          student,
+          schoolPageId,
+          newsId,
+          partialUpdateSchoolPageNewsRequestBodyDto,
         ),
       ).resolves.toEqual({
         schoolPageNews: newSchoolPageNews,
