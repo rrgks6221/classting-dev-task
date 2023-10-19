@@ -279,4 +279,18 @@ describe(SchoolPagesService.name, () => {
       ).resolves.toEqual(newNews);
     });
   });
+
+  describe(SchoolPagesService.prototype.removeNews.name, () => {
+    let newsId: number;
+
+    beforeEach(() => {
+      newsId = NaN;
+    });
+
+    it('뉴스 업데이트 성공', async () => {
+      schoolPageNewsRepository.findOneBy.mockResolvedValue({ id: 1 });
+
+      await expect(service.removeNews(newsId)).resolves.toBeUndefined();
+    });
+  });
 });
