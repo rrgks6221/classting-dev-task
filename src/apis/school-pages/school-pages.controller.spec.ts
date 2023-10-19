@@ -1,7 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { CreateSchoolPageNewsRequestBodyDto } from 'src/apis/school-pages/dto/create-school-page-news-request-body.dto';
 import { CreateSchoolPageRequestBodyDto } from 'src/apis/school-pages/dto/create-school-page-request-body.dto';
+import { FindAllSchoolPageRequestQueryDto } from 'src/apis/school-pages/dto/find-all-school-page-request-query.dto';
 import { PartialUpdateSchoolPageNewsRequestBodyDto } from 'src/apis/school-pages/dto/partial-update-school-page-news-request-body.dto';
+import { SchoolType } from 'src/constants/school/school.enum';
 import { StudentEntity } from 'src/entities/student.entity';
 import { MockSchoolPagesService } from 'test/mock/mock.service';
 import { SchoolPagesController } from './school-pages.controller';
@@ -59,6 +61,37 @@ describe(SchoolPagesController.name, () => {
           id: 2,
           name: 'name',
         },
+      });
+    });
+  });
+
+  describe(SchoolPagesController.prototype.findAllAndCount.name, () => {
+    let student: StudentEntity;
+    let findAllSchoolPageRequestQueryDto: FindAllSchoolPageRequestQueryDto;
+
+    beforeEach(() => {
+      student = new StudentEntity();
+      findAllSchoolPageRequestQueryDto = new FindAllSchoolPageRequestQueryDto();
+    });
+
+    it('전체 조회 성공', async () => {
+      student.id = 1;
+      findAllSchoolPageRequestQueryDto.type = SchoolType.Elementary;
+
+      const schoolPages = [
+        {
+          id: 2,
+          type: SchoolType.Elementary,
+        },
+      ];
+
+      schoolPagesService.findAllAndCount.mockResolvedValue([schoolPages, 1]);
+
+      await expect(
+        controller.findAllAndCount(student, findAllSchoolPageRequestQueryDto),
+      ).resolves.toEqual({
+        schoolPages,
+        totalCount: 1,
       });
     });
   });
