@@ -1,4 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { CreateSchoolPageNewsRequestBodyDto } from 'src/apis/school-pages/dto/create-school-page-news-request-body.dto';
 import { CreateSchoolPageRequestBodyDto } from 'src/apis/school-pages/dto/create-school-page-request-body.dto';
 import { StudentEntity } from 'src/entities/student.entity';
 import { MockSchoolPagesService } from 'test/mock/mock.service';
@@ -57,6 +58,43 @@ describe(SchoolPagesController.name, () => {
           id: 2,
           name: 'name',
         },
+      });
+    });
+  });
+
+  describe(SchoolPagesService.prototype.createNews.name, () => {
+    let student: StudentEntity;
+    let schoolPageId: number;
+    let createSchoolPageNewRequestBodyDto: CreateSchoolPageNewsRequestBodyDto;
+
+    beforeEach(() => {
+      student = new StudentEntity();
+      schoolPageId = NaN;
+      createSchoolPageNewRequestBodyDto =
+        new CreateSchoolPageNewsRequestBodyDto();
+    });
+
+    it('뉴스 생성 성공', async () => {
+      student.id = 1;
+      schoolPageId = 2;
+      createSchoolPageNewRequestBodyDto.title = 'title';
+
+      const newSchoolPageNews = {
+        id: 3,
+        title: 'title',
+        description: 'description',
+      };
+
+      schoolPagesService.createNews.mockResolvedValue(newSchoolPageNews);
+
+      await expect(
+        controller.createNews(
+          student,
+          schoolPageId,
+          createSchoolPageNewRequestBodyDto,
+        ),
+      ).resolves.toEqual({
+        schoolPageNews: newSchoolPageNews,
       });
     });
   });
