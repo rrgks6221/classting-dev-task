@@ -53,3 +53,25 @@ export const ApiSchoolPageCreateNews = (
     }),
   );
 };
+
+export const ApiSchoolPagePartialUpdateNews = (
+  apiOptions: Required<Pick<OperationObject, 'summary'>> &
+    Partial<OperationObject>,
+) => {
+  return applyDecorators(
+    ApiExtraModels(SchoolPageNewsResponseDto),
+    ApiOperation(apiOptions),
+    ApiBearerAuth(),
+    ApiResponse({
+      status: HttpStatus.OK,
+      schema: {
+        properties: {
+          schoolPage: {
+            type: 'object',
+            $ref: getSchemaPath(SchoolPageNewsResponseDto),
+          },
+        },
+      },
+    }),
+  );
+};

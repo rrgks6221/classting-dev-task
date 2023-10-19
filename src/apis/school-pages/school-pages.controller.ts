@@ -12,11 +12,13 @@ import { Student } from 'src/apis/auth/decorators/student.decorator';
 import { JwtAuthGuard } from 'src/apis/auth/guards/jwt-auth.guard';
 import { CreateSchoolPageNewsRequestBodyDto } from 'src/apis/school-pages/dto/create-school-page-news-request-body.dto';
 import { CreateSchoolPageRequestBodyDto } from 'src/apis/school-pages/dto/create-school-page-request-body.dto';
+import { PartialUpdateSchoolPageNewsRequestBodyDto } from 'src/apis/school-pages/dto/partial-update-school-page-news-request-body.dto';
 import { SchoolPageNewsResponseDto } from 'src/apis/school-pages/dto/school-page-news-response.dto';
 import { SchoolPageResponseDto } from 'src/apis/school-pages/dto/school-page-response.dto';
 import {
   ApiSchoolPageCreate,
   ApiSchoolPageCreateNews,
+  ApiSchoolPagePartialUpdateNews,
 } from 'src/apis/school-pages/school-pages.controller.swagger';
 import { SchoolPagesService } from 'src/apis/school-pages/school-pages.service';
 import { ParsePositiveIntPipe } from 'src/common/pipes/parse-positive-int.pipe';
@@ -79,9 +81,33 @@ export class SchoolPagesController {
     };
   }
 
+  @ApiSchoolPagePartialUpdateNews({ summary: '학교 페이지 업데이트' })
+  @UseGuards(JwtAuthGuard)
   @Patch(':schoolPageId/news/:newsId')
-  partialUpdateNews() {
-    return this.schoolPagesService.partialUpdateNews();
+  async partialUpdateNews(
+    @Student() student: StudentEntity,
+    @Param('schoolPageId', ParsePositiveIntPipe) schoolPageId: number,
+    @Param('newsId', ParsePositiveIntPipe) newsId: number,
+    @Body()
+    partialUpdateSchoolPageNewsRequestBodyDto: PartialUpdateSchoolPageNewsRequestBodyDto,
+  ) {
+    await this.schoolPagesService.findOneOrNotFound({
+      id: schoolPageId,
+    });
+
+    await this.schoolPagesService.findOneSchoolPageAdminOrForbidden(
+      student.id,
+      schoolPageId,
+    );
+
+    const newSchoolPageNews = await this.schoolPagesService.partialUpdateNews(
+      newsId,
+      partialUpdateSchoolPageNewsRequestBodyDto,
+    );
+
+    return {
+      schoolPageNews: new SchoolPageNewsResponseDto(newSchoolPageNews),
+    };
   }
 
   @Delete(':schoolPageId/news/:newsId')

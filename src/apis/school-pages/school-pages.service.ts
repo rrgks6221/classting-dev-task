@@ -8,6 +8,7 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateSchoolPageNewsRequestBodyDto } from 'src/apis/school-pages/dto/create-school-page-news-request-body.dto';
 import { CreateSchoolPageRequestBodyDto } from 'src/apis/school-pages/dto/create-school-page-request-body.dto';
+import { PartialUpdateSchoolPageNewsRequestBodyDto } from 'src/apis/school-pages/dto/partial-update-school-page-news-request-body.dto';
 import { SchoolPageNewsEntity } from 'src/entities/school-news.entity';
 import { SchoolPageAdminLinkEntity } from 'src/entities/school-page-admin-link.entity';
 import { SchoolPageEntity } from 'src/entities/school-page.entity';
@@ -126,8 +127,28 @@ export class SchoolPagesService {
     return newSchoolNews;
   }
 
-  partialUpdateNews() {
-    return;
+  async findOneNewsOrNotFound(schoolPageNewsId: number) {
+    const existNews = await this.schoolPageNewsRepository.findOneBy({
+      id: schoolPageNewsId,
+    });
+
+    if (!existNews) {
+      throw new NotFoundException('존재하지 않는 뉴스입니다.');
+    }
+
+    return existNews;
+  }
+
+  async partialUpdateNews(
+    newsId: number,
+    partialUpdateSchoolPageNewsRequestBodyDto: PartialUpdateSchoolPageNewsRequestBodyDto,
+  ) {
+    const oldNews = await this.findOneNewsOrNotFound(newsId);
+
+    return this.schoolPageAdminLinkRepository.save({
+      ...oldNews,
+      ...partialUpdateSchoolPageNewsRequestBodyDto,
+    });
   }
 
   removeNews() {
