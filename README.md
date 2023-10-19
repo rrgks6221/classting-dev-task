@@ -7,6 +7,7 @@
 ## API Document
 
 Swagger OAS 3.0
+Path to /api-docs after server startup
 
 ## Usage
 
