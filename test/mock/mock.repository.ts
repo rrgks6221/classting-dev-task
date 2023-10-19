@@ -40,3 +40,5 @@ export class MockStudentRepository extends createMockRepository() {}
 export class MockSchoolPageRepository extends createMockRepository() {}
 
 export class MockSchoolPageAdminLinkRepository extends createMockRepository() {}
+
+export class MockSchoolPageNewsRepository extends createMockRepository() {}
