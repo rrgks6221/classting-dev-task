@@ -22,7 +22,7 @@ import {
   MockSchoolPageSubscribeLinkRepository,
 } from 'test/mock/mock.repository';
 import { DataSource } from 'typeorm';
-import { SchoolPagesService } from '../school-pages.service';
+import { SchoolPagesService } from './school-pages.service';
 
 describe(SchoolPagesService.name, () => {
   let service: SchoolPagesService;

@@ -4,8 +4,8 @@ import { SchoolPageNewsEntity } from 'src/apis/school-pages/entities/school-news
 import { SchoolPageAdminLinkEntity } from 'src/apis/school-pages/entities/school-page-admin-link.entity';
 import { SchoolPageSubscribeLinkEntity } from 'src/apis/school-pages/entities/school-page-subscribe-link.entity';
 import { SchoolPageEntity } from 'src/apis/school-pages/entities/school-page.entity';
-import { SchoolPagesController } from '../controllers/school-pages.controller';
-import { SchoolPagesService } from '../school-pages.service';
+import { SchoolPagesController } from './controllers/school-pages.controller';
+import { SchoolPagesService } from './services/school-pages.service';
 
 @Module({
   imports: [

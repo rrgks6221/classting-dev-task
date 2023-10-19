@@ -32,7 +32,7 @@ import { FindAllSchoolPageRequestQueryDto } from 'src/apis/school-pages/dto/find
 import { PartialUpdateSchoolPageNewsRequestBodyDto } from 'src/apis/school-pages/dto/partial-update-school-page-news-request-body.dto';
 import { SchoolPageNewsResponseDto } from 'src/apis/school-pages/dto/school-page-news-response.dto';
 import { SchoolPageResponseDto } from 'src/apis/school-pages/dto/school-page-response.dto';
-import { SchoolPagesService } from 'src/apis/school-pages/school-pages.service';
+import { SchoolPagesService } from 'src/apis/school-pages/services/school-pages.service';
 import { ParsePositiveIntPipe } from 'src/common/pipes/parse-positive-int.pipe';
 import { StudentEntity } from 'src/entities/student.entity';
 

@@ -7,7 +7,7 @@ import { FindAllSchoolPageRequestQueryDto } from 'src/apis/school-pages/dto/find
 import { PartialUpdateSchoolPageNewsRequestBodyDto } from 'src/apis/school-pages/dto/partial-update-school-page-news-request-body.dto';
 import { StudentEntity } from 'src/entities/student.entity';
 import { MockSchoolPagesService } from 'test/mock/mock.service';
-import { SchoolPagesService } from '../school-pages.service';
+import { SchoolPagesService } from '../services/school-pages.service';
 import { SchoolPagesController } from './school-pages.controller';
 
 describe(SchoolPagesController.name, () => {
