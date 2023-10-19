@@ -109,7 +109,7 @@ describe(SchoolPagesController.name, () => {
     beforeEach(() => {
       student = new StudentEntity();
       schoolPageId = NaN;
-      newsId: NaN;
+      newsId = NaN;
       partialUpdateSchoolPageNewsRequestBodyDto =
         new PartialUpdateSchoolPageNewsRequestBodyDto();
     });
@@ -137,6 +137,26 @@ describe(SchoolPagesController.name, () => {
       ).resolves.toEqual({
         schoolPageNews: newSchoolPageNews,
       });
+    });
+  });
+
+  describe(SchoolPagesService.prototype.removeNews.name, () => {
+    let student: StudentEntity;
+    let schoolPageId: number;
+    let newsId: number;
+
+    beforeEach(() => {
+      student = new StudentEntity();
+      schoolPageId = NaN;
+      newsId = NaN;
+    });
+
+    it('뉴스 수정 성공', async () => {
+      schoolPagesService.removeNews.mockResolvedValue(undefined);
+
+      await expect(
+        controller.removeNews(student, schoolPageId, newsId),
+      ).resolves.toBeUndefined();
     });
   });
 });
