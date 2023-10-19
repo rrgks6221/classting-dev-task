@@ -88,3 +88,29 @@ export const ApiSchoolPageRemoveNews = (
     }),
   );
 };
+
+export const ApiSchoolPageSubscribe = (
+  apiOptions: Required<Pick<OperationObject, 'summary'>> &
+    Partial<OperationObject>,
+) => {
+  return applyDecorators(
+    ApiOperation(apiOptions),
+    ApiBearerAuth(),
+    ApiResponse({
+      status: HttpStatus.NO_CONTENT,
+    }),
+  );
+};
+
+export const ApiSchoolPageUnsubscribe = (
+  apiOptions: Required<Pick<OperationObject, 'summary'>> &
+    Partial<OperationObject>,
+) => {
+  return applyDecorators(
+    ApiOperation(apiOptions),
+    ApiBearerAuth(),
+    ApiResponse({
+      status: HttpStatus.NO_CONTENT,
+    }),
+  );
+};

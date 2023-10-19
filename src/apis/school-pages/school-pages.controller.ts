@@ -22,6 +22,8 @@ import {
   ApiSchoolPageCreateNews,
   ApiSchoolPagePartialUpdateNews,
   ApiSchoolPageRemoveNews,
+  ApiSchoolPageSubscribe,
+  ApiSchoolPageUnsubscribe,
 } from 'src/apis/school-pages/school-pages.controller.swagger';
 import { SchoolPagesService } from 'src/apis/school-pages/school-pages.service';
 import { ParsePositiveIntPipe } from 'src/common/pipes/parse-positive-int.pipe';
@@ -132,5 +134,27 @@ export class SchoolPagesController {
     );
 
     return this.schoolPagesService.removeNews(newsId);
+  }
+
+  @ApiSchoolPageSubscribe({ summary: '학교 페이지 구독' })
+  @UseGuards(JwtAuthGuard)
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @Post(':schoolPageId/subscribe')
+  subscribe(
+    @Student() student: StudentEntity,
+    @Param('schoolPageId', ParsePositiveIntPipe) schoolPageId: number,
+  ): Promise<void> {
+    return this.schoolPagesService.subscribe();
+  }
+
+  @ApiSchoolPageUnsubscribe({ summary: '학교 페이지 구독 취소' })
+  @UseGuards(JwtAuthGuard)
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @Delete(':schoolPageId/subscribe')
+  unsubscribe(
+    @Student() student: StudentEntity,
+    @Param('schoolPageId', ParsePositiveIntPipe) schoolPageId: number,
+  ): Promise<void> {
+    return this.schoolPagesService.unsubscribe();
   }
 }

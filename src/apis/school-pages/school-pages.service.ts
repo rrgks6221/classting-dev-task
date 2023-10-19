@@ -159,6 +159,14 @@ export class SchoolPagesService {
     });
   }
 
+  async subscribe(): Promise<void> {
+    return;
+  }
+
+  async unsubscribe(): Promise<void> {
+    return;
+  }
+
   private isSameSchoolPage(
     newSchoolPage: CreateSchoolPageRequestBodyDto,
     oldSchoolPage: SchoolPageEntity | null,

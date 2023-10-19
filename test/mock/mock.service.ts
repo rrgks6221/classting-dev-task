@@ -31,6 +31,8 @@ export class MockStudentsService implements MockClass<StudentsService> {
 }
 
 export class MockSchoolPagesService implements MockClass<SchoolPagesService> {
+  subscribe = jest.fn();
+  unsubscribe = jest.fn();
   findOneNewsOrNotFound = jest.fn();
   findOneOrNotFound = jest.fn();
   findOneSchoolPageAdminOrForbidden = jest.fn();
