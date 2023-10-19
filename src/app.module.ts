@@ -5,8 +5,6 @@ import { TypeOrmConfigService } from 'src/config/external-config/typeorm-config.
 import { AuthModule } from './apis/auth/auth.module';
 import { SchoolPagesModule } from './apis/school-pages/school-pages.module';
 import { StudentsModule } from './apis/students/students.module';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 
 @Module({
   imports: [
@@ -18,7 +16,5 @@ import { AppService } from './app.service';
     StudentsModule,
     SchoolPagesModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
 })
 export class AppModule {}

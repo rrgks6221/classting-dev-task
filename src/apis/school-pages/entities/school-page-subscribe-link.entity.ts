@@ -1,5 +1,5 @@
-import { SchoolPageEntity } from 'src/entities/school-page.entity';
-import { StudentEntity } from 'src/entities/student.entity';
+import { SchoolPageEntity } from 'src/apis/school-pages/entities/school-page.entity';
+import { StudentEntity } from 'src/apis/students/entities/student.entity';
 import {
   Column,
   Entity,
@@ -8,12 +8,12 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
-@Entity({ name: 'school_page_admin_link' })
-export class SchoolPageAdminLinkEntity {
+@Entity({ name: 'school_page_subscribe_link' })
+export class SchoolPageSubscribeLinkEntity {
   @PrimaryGeneratedColumn({
     type: 'int',
     name: 'id',
-    comment: '학교 관리자 고유 id',
+    comment: '학교 구독 고유 id',
     unsigned: true,
   })
   id: number;
@@ -43,8 +43,19 @@ export class SchoolPageAdminLinkEntity {
   createdAt: Date;
 
   @ManyToOne(
+    () => StudentEntity,
+    (student) => student.schoolPageSubscribeList,
+    {
+      onUpdate: 'CASCADE',
+      onDelete: 'CASCADE',
+    },
+  )
+  @JoinColumn([{ name: 'student_id', referencedColumnName: 'id' }])
+  student: StudentEntity;
+
+  @ManyToOne(
     () => SchoolPageEntity,
-    (schoolPage) => schoolPage.schoolPageAdmins,
+    (schoolPage) => schoolPage.schoolPageSubscribeList,
     {
       onUpdate: 'CASCADE',
       onDelete: 'CASCADE',
@@ -52,11 +63,4 @@ export class SchoolPageAdminLinkEntity {
   )
   @JoinColumn([{ name: 'school_page_id', referencedColumnName: 'id' }])
   schoolPage: SchoolPageEntity;
-
-  @ManyToOne(() => StudentEntity, (student) => student.schoolPageAdmins, {
-    onUpdate: 'CASCADE',
-    onDelete: 'CASCADE',
-  })
-  @JoinColumn([{ name: 'student_id', referencedColumnName: 'id' }])
-  student: StudentEntity;
 }

@@ -1,7 +1,7 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
-import { StudentsService } from 'src/apis/students/students.service';
+import { StudentsService } from 'src/apis/students/services/students.service';
 import { ENV_KEY } from 'src/config/app-config/app-config.constant';
 import { AppConfigService } from 'src/config/app-config/app-config.service';
 

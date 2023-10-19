@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { SchoolPageType } from 'src/apis/school-pages/constants/school-page.enum';
+import { SchoolPageEntity } from 'src/apis/school-pages/entities/school-page.entity';
 import { BaseResponseDto } from 'src/common/dto/base-response.dto';
-import { SchoolType } from 'src/constants/school/school.enum';
-import { SchoolPageEntity } from 'src/entities/school-page.entity';
 
 export class SchoolPageResponseDto
   extends BaseResponseDto
@@ -18,9 +18,9 @@ export class SchoolPageResponseDto
 
   @ApiProperty({
     description: '학교 타입',
-    enum: SchoolType,
+    enum: SchoolPageType,
   })
-  type: SchoolType;
+  type: SchoolPageType;
 
   @ApiProperty({
     description: '학교 주소',

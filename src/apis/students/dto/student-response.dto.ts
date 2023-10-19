@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Exclude } from 'class-transformer';
+import { StudentEntity } from 'src/apis/students/entities/student.entity';
 import { BaseResponseDto } from 'src/common/dto/base-response.dto';
-import { StudentEntity } from 'src/entities/student.entity';
 
 export class StudentResponseDto
   extends BaseResponseDto

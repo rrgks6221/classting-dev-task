@@ -1,7 +1,7 @@
 import { ConfigService } from '@nestjs/config';
-import { AuthService } from 'src/apis/auth/auth.service';
-import { SchoolPagesService } from 'src/apis/school-pages/school-pages.service';
-import { StudentsService } from 'src/apis/students/students.service';
+import { AuthService } from 'src/apis/auth/services/auth.service';
+import { SchoolPagesService } from 'src/apis/school-pages/services/school-pages.service';
+import { StudentsService } from 'src/apis/students/services/students.service';
 import { AppConfigService } from 'src/config/app-config/app-config.service';
 import { MockClass } from 'test/mock/mock.type';
 

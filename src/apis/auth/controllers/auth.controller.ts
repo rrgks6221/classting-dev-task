@@ -11,14 +11,14 @@ import {
   ApiGetProfile,
   ApiSignIn,
   ApiSignUp,
-} from 'src/apis/auth/auth.constroller.swagger';
+} from 'src/apis/auth/controllers/auth.controller.swagger';
 import { Student } from 'src/apis/auth/decorators/student.decorator';
 import { SignInRequestBodyDto } from 'src/apis/auth/dto/sign-in-request-body.dto';
 import { SignUpRequestBodyDto } from 'src/apis/auth/dto/sign-up-request-body.dto';
 import { JwtAuthGuard } from 'src/apis/auth/guards/jwt-auth.guard';
 import { StudentResponseDto } from 'src/apis/students/dto/student-response.dto';
-import { StudentEntity } from 'src/entities/student.entity';
-import { AuthService } from './auth.service';
+import { StudentEntity } from 'src/apis/students/entities/student.entity';
+import { AuthService } from '../services/auth.service';
 
 @ApiTags('auth')
 @Controller('api/auth')

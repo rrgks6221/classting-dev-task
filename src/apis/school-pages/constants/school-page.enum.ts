@@ -1,4 +1,4 @@
-export enum SchoolType {
+export enum SchoolPageType {
   Elementary = 'Elementary',
   Middle = 'Middle',
   High = 'High',

@@ -1,7 +1,7 @@
 import { UnauthorizedException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { JwtStrategy } from 'src/apis/auth/jwt/jwt.strategy';
-import { StudentsService } from 'src/apis/students/students.service';
+import { StudentsService } from 'src/apis/students/services/students.service';
 import { AppConfigService } from 'src/config/app-config/app-config.service';
 import { MockStudentsService } from 'test/mock/mock.service';
 

@@ -1,11 +1,11 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
 import { IsEnum, IsIn, IsOptional } from 'class-validator';
+import { SchoolPageType } from 'src/apis/school-pages/constants/school-page.enum';
+import { SchoolPageEntity } from 'src/apis/school-pages/entities/school-page.entity';
 import { PageDto } from 'src/common/dto/page.dto';
 import { transformStringBoolean } from 'src/common/transformers/stringBoolean.transform';
 import { SortBy } from 'src/constants/common.enum';
-import { SchoolType } from 'src/constants/school/school.enum';
-import { SchoolPageEntity } from 'src/entities/school-page.entity';
 
 export class FindAllSchoolPageRequestQueryDto extends PageDto {
   @ApiPropertyOptional({
@@ -19,11 +19,11 @@ export class FindAllSchoolPageRequestQueryDto extends PageDto {
 
   @ApiPropertyOptional({
     description: '학교 타입 필터링',
-    enum: SchoolType,
+    enum: SchoolPageType,
   })
   @IsOptional()
-  @IsEnum(SchoolType)
-  type?: SchoolType;
+  @IsEnum(SchoolPageType)
+  type?: SchoolPageType;
 
   @ApiPropertyOptional({
     description: '정렬 기준',

@@ -14,13 +14,6 @@ import {
 import { ApiTags } from '@nestjs/swagger';
 import { Student } from 'src/apis/auth/decorators/student.decorator';
 import { JwtAuthGuard } from 'src/apis/auth/guards/jwt-auth.guard';
-import { CreateSchoolPageNewsRequestBodyDto } from 'src/apis/school-pages/dto/create-school-page-news-request-body.dto';
-import { CreateSchoolPageRequestBodyDto } from 'src/apis/school-pages/dto/create-school-page-request-body.dto';
-import { FindAllSchoolPageNewsRequestQueryDto } from 'src/apis/school-pages/dto/find-all-school-page-news-request-query.dto';
-import { FindAllSchoolPageRequestQueryDto } from 'src/apis/school-pages/dto/find-all-school-page-request-query.dto';
-import { PartialUpdateSchoolPageNewsRequestBodyDto } from 'src/apis/school-pages/dto/partial-update-school-page-news-request-body.dto';
-import { SchoolPageNewsResponseDto } from 'src/apis/school-pages/dto/school-page-news-response.dto';
-import { SchoolPageResponseDto } from 'src/apis/school-pages/dto/school-page-response.dto';
 import {
   ApiSchoolPageCreate,
   ApiSchoolPageCreateNews,
@@ -31,10 +24,17 @@ import {
   ApiSchoolPageRemoveNews,
   ApiSchoolPageSubscribe,
   ApiSchoolPageUnsubscribe,
-} from 'src/apis/school-pages/school-pages.controller.swagger';
-import { SchoolPagesService } from 'src/apis/school-pages/school-pages.service';
+} from 'src/apis/school-pages/controllers/school-pages.controller.swagger';
+import { CreateSchoolPageNewsRequestBodyDto } from 'src/apis/school-pages/dto/create-school-page-news-request-body.dto';
+import { CreateSchoolPageRequestBodyDto } from 'src/apis/school-pages/dto/create-school-page-request-body.dto';
+import { FindAllSchoolPageNewsRequestQueryDto } from 'src/apis/school-pages/dto/find-all-school-page-news-request-query.dto';
+import { FindAllSchoolPageRequestQueryDto } from 'src/apis/school-pages/dto/find-all-school-page-request-query.dto';
+import { PartialUpdateSchoolPageNewsRequestBodyDto } from 'src/apis/school-pages/dto/partial-update-school-page-news-request-body.dto';
+import { SchoolPageNewsResponseDto } from 'src/apis/school-pages/dto/school-page-news-response.dto';
+import { SchoolPageResponseDto } from 'src/apis/school-pages/dto/school-page-response.dto';
+import { SchoolPagesService } from 'src/apis/school-pages/services/school-pages.service';
+import { StudentEntity } from 'src/apis/students/entities/student.entity';
 import { ParsePositiveIntPipe } from 'src/common/pipes/parse-positive-int.pipe';
-import { StudentEntity } from 'src/entities/student.entity';
 
 @ApiTags('school page')
 @Controller('api/school-pages')

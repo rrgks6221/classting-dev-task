@@ -8,7 +8,7 @@ import { JwtService } from '@nestjs/jwt';
 import bcrypt from 'bcrypt';
 import { SignInRequestBodyDto } from 'src/apis/auth/dto/sign-in-request-body.dto';
 import { SignUpRequestBodyDto } from 'src/apis/auth/dto/sign-up-request-body.dto';
-import { StudentsService } from 'src/apis/students/students.service';
+import { StudentsService } from 'src/apis/students/services/students.service';
 import { ENCRYPTION_TOKEN } from 'src/constants/token.constant';
 
 @Injectable()

@@ -1,4 +1,4 @@
-import { StudentEntity } from 'src/entities/student.entity';
+import { StudentEntity } from 'src/apis/students/entities/student.entity';
 
 export class CreateStudentDto
   implements Pick<StudentEntity, 'name' | 'email' | 'password'>

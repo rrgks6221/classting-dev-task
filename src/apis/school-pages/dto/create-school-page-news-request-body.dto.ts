@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsString, Length } from 'class-validator';
-import { SchoolPageNewsEntity } from 'src/entities/school-news.entity';
+import { SchoolPageNewsEntity } from 'src/apis/school-pages/entities/school-news.entity';
 
 export class CreateSchoolPageNewsRequestBodyDto
   implements Pick<SchoolPageNewsEntity, 'title' | 'description'>
