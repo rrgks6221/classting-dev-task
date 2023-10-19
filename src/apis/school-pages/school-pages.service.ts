@@ -107,7 +107,7 @@ export class SchoolPagesService {
     const [schoolPages, totalCount] =
       await this.schoolPageRepository.findAndCount({
         where,
-        order: { [sortBy || 'id']: orderBy || 'DESC' },
+        order: { [sortBy || 'id']: orderBy || 'ASC' },
         skip: page * pageSize,
         take: pageSize,
       });
