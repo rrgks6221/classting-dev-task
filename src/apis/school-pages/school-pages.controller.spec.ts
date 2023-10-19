@@ -96,6 +96,28 @@ describe(SchoolPagesController.name, () => {
     });
   });
 
+  describe(SchoolPagesController.prototype.findOne.name, () => {
+    let schoolPageId: number;
+
+    beforeEach(() => {
+      schoolPageId = NaN;
+    });
+
+    it('단일 조회 성공', async () => {
+      schoolPageId = 1;
+
+      const schoolPage = {
+        id: 2,
+      };
+
+      schoolPagesService.findOneOrNotFound.mockResolvedValue(schoolPage);
+
+      await expect(controller.findOne(schoolPageId)).resolves.toEqual({
+        schoolPage,
+      });
+    });
+  });
+
   describe(SchoolPagesService.prototype.subscribe.name, () => {
     let student: StudentEntity;
     let schoolPageId: number;
