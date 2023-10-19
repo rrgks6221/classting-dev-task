@@ -45,6 +45,7 @@ export const ApiSchoolPageFindAllAndCount = (
       schema: {
         properties: {
           schoolPages: {
+            type: 'array',
             items: {
               type: 'object',
               $ref: getSchemaPath(SchoolPageResponseDto),
@@ -122,6 +123,34 @@ export const ApiSchoolPageCreateNews = (
           schoolPage: {
             type: 'object',
             $ref: getSchemaPath(SchoolPageNewsResponseDto),
+          },
+        },
+      },
+    }),
+  );
+};
+
+export const ApiSchoolPageFindAllAndCountNews = (
+  apiOptions: Required<Pick<OperationObject, 'summary'>> &
+    Partial<OperationObject>,
+) => {
+  return applyDecorators(
+    ApiExtraModels(SchoolPageNewsResponseDto),
+    ApiOperation(apiOptions),
+    ApiBearerAuth(),
+    ApiResponse({
+      status: HttpStatus.OK,
+      schema: {
+        properties: {
+          schoolPageNewsList: {
+            type: 'array',
+            items: {
+              type: 'object',
+              $ref: getSchemaPath(SchoolPageNewsResponseDto),
+            },
+          },
+          totalCount: {
+            type: 'number',
           },
         },
       },

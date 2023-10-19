@@ -8,6 +8,7 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateSchoolPageNewsRequestBodyDto } from 'src/apis/school-pages/dto/create-school-page-news-request-body.dto';
 import { CreateSchoolPageRequestBodyDto } from 'src/apis/school-pages/dto/create-school-page-request-body.dto';
+import { FindAllSchoolPageNewsRequestQueryDto } from 'src/apis/school-pages/dto/find-all-school-page-news-request-query.dto';
 import { FindAllSchoolPageRequestQueryDto } from 'src/apis/school-pages/dto/find-all-school-page-request-query.dto';
 import { PartialUpdateSchoolPageNewsRequestBodyDto } from 'src/apis/school-pages/dto/partial-update-school-page-news-request-body.dto';
 import { SchoolPageNewsEntity } from 'src/entities/school-news.entity';
@@ -88,7 +89,7 @@ export class SchoolPagesService {
     }
   }
 
-  async findAllAndCount(
+  findAllAndCount(
     studentId: number,
     findAllSchoolPageRequestQueryDto: FindAllSchoolPageRequestQueryDto,
   ) {
@@ -104,15 +105,12 @@ export class SchoolPagesService {
         : undefined,
     };
 
-    const [schoolPages, totalCount] =
-      await this.schoolPageRepository.findAndCount({
-        where,
-        order: { [sortBy || 'id']: orderBy || 'ASC' },
-        skip: page * pageSize,
-        take: pageSize,
-      });
-
-    return [schoolPages, totalCount];
+    return this.schoolPageRepository.findAndCount({
+      where,
+      order: { [sortBy || 'id']: orderBy || 'ASC' },
+      skip: page * pageSize,
+      take: pageSize,
+    });
   }
 
   async findOneOrNotFound(where: FindOptionsWhere<SchoolPageEntity>) {
@@ -204,6 +202,25 @@ export class SchoolPagesService {
     await this.schoolPageNewsRepository.save(newSchoolNews);
 
     return newSchoolNews;
+  }
+
+  findAllAndCountNews(
+    schoolPageId: number,
+    findAllSchoolPageNewsRequestQueryDto: FindAllSchoolPageNewsRequestQueryDto,
+  ) {
+    const { page, pageSize, sortBy, orderBy } =
+      findAllSchoolPageNewsRequestQueryDto;
+
+    const where: FindOptionsWhere<SchoolPageNewsEntity> = {
+      schoolPageId,
+    };
+
+    return this.schoolPageNewsRepository.findAndCount({
+      where,
+      order: { [sortBy || 'id']: orderBy || 'ASC' },
+      skip: page * pageSize,
+      take: pageSize,
+    });
   }
 
   async findOneNewsOrNotFound(newsId: number) {
