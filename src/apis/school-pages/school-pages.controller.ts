@@ -2,11 +2,13 @@ import {
   Body,
   Controller,
   Delete,
+  Get,
   HttpCode,
   HttpStatus,
   Param,
   Patch,
   Post,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
@@ -14,12 +16,15 @@ import { Student } from 'src/apis/auth/decorators/student.decorator';
 import { JwtAuthGuard } from 'src/apis/auth/guards/jwt-auth.guard';
 import { CreateSchoolPageNewsRequestBodyDto } from 'src/apis/school-pages/dto/create-school-page-news-request-body.dto';
 import { CreateSchoolPageRequestBodyDto } from 'src/apis/school-pages/dto/create-school-page-request-body.dto';
+import { FindAllSchoolPageRequestQueryDto } from 'src/apis/school-pages/dto/find-all-school-page-request-query.dto';
 import { PartialUpdateSchoolPageNewsRequestBodyDto } from 'src/apis/school-pages/dto/partial-update-school-page-news-request-body.dto';
 import { SchoolPageNewsResponseDto } from 'src/apis/school-pages/dto/school-page-news-response.dto';
 import { SchoolPageResponseDto } from 'src/apis/school-pages/dto/school-page-response.dto';
 import {
   ApiSchoolPageCreate,
   ApiSchoolPageCreateNews,
+  ApiSchoolPageFindAllAndCount,
+  ApiSchoolPageFindOne,
   ApiSchoolPagePartialUpdateNews,
   ApiSchoolPageRemoveNews,
   ApiSchoolPageSubscribe,
@@ -54,6 +59,49 @@ export class SchoolPagesController {
 
     return {
       schoolPage: new SchoolPageResponseDto(newSchoolPage),
+    };
+  }
+
+  /**
+   * 비회원 유저는 페이지 서비스 사용이 불가능하다고 가정한다.
+   */
+  @ApiSchoolPageFindAllAndCount({
+    summary: '학교 페이지 전체 조회',
+    description: '비회원 유저는 페이지 서비스 사용이 불가능하다고 가정한다.',
+  })
+  @UseGuards(JwtAuthGuard)
+  @Get()
+  async findAllAndCount(
+    @Student() student: StudentEntity,
+    @Query() findAllSchoolPageRequestQueryDto: FindAllSchoolPageRequestQueryDto,
+  ) {
+    const [schoolPages, totalCount] =
+      await this.schoolPagesService.findAllAndCount(
+        student.id,
+        findAllSchoolPageRequestQueryDto,
+      );
+
+    return {
+      schoolPages,
+      totalCount,
+    };
+  }
+
+  @ApiSchoolPageFindOne({
+    summary: '학교 페이지 단일 조회',
+    description: '비회원 유저는 페이지 서비스 사용이 불가능하다고 가정한다.',
+  })
+  @UseGuards(JwtAuthGuard)
+  @Get(':schoolPageId')
+  async findOne(
+    @Param('schoolPageId', ParsePositiveIntPipe) schoolPageId: number,
+  ) {
+    const schoolPage = await this.schoolPagesService.findOneOrNotFound({
+      id: schoolPageId,
+    });
+
+    return {
+      schoolPage: new SchoolPageResponseDto(schoolPage),
     };
   }
 

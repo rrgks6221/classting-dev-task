@@ -32,6 +32,55 @@ export const ApiSchoolPageCreate = (
   );
 };
 
+export const ApiSchoolPageFindAllAndCount = (
+  apiOptions: Required<Pick<OperationObject, 'summary'>> &
+    Partial<OperationObject>,
+) => {
+  return applyDecorators(
+    ApiExtraModels(SchoolPageResponseDto),
+    ApiOperation(apiOptions),
+    ApiBearerAuth(),
+    ApiResponse({
+      status: HttpStatus.OK,
+      schema: {
+        properties: {
+          schoolPages: {
+            items: {
+              type: 'object',
+              $ref: getSchemaPath(SchoolPageResponseDto),
+            },
+          },
+          totalCount: {
+            type: 'number',
+          },
+        },
+      },
+    }),
+  );
+};
+
+export const ApiSchoolPageFindOne = (
+  apiOptions: Required<Pick<OperationObject, 'summary'>> &
+    Partial<OperationObject>,
+) => {
+  return applyDecorators(
+    ApiExtraModels(SchoolPageResponseDto),
+    ApiOperation(apiOptions),
+    ApiBearerAuth(),
+    ApiResponse({
+      status: HttpStatus.OK,
+      schema: {
+        properties: {
+          schoolPage: {
+            type: 'object',
+            $ref: getSchemaPath(SchoolPageResponseDto),
+          },
+        },
+      },
+    }),
+  );
+};
+
 export const ApiSchoolPageSubscribe = (
   apiOptions: Required<Pick<OperationObject, 'summary'>> &
     Partial<OperationObject>,

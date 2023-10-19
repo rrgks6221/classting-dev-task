@@ -8,6 +8,7 @@ const createMockRepository = () => {
     findAll = jest.fn();
     findOne = jest.fn();
     findOneBy = jest.fn();
+    findAndCount = jest.fn();
     countBy = jest.fn();
     save = jest.fn();
     update = jest.fn();

@@ -7,6 +7,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { CreateSchoolPageNewsRequestBodyDto } from 'src/apis/school-pages/dto/create-school-page-news-request-body.dto';
 import { CreateSchoolPageRequestBodyDto } from 'src/apis/school-pages/dto/create-school-page-request-body.dto';
+import { FindAllSchoolPageRequestQueryDto } from 'src/apis/school-pages/dto/find-all-school-page-request-query.dto';
 import { PartialUpdateSchoolPageNewsRequestBodyDto } from 'src/apis/school-pages/dto/partial-update-school-page-news-request-body.dto';
 import { SchoolPageNewsEntity } from 'src/entities/school-news.entity';
 import { SchoolPageAdminLinkEntity } from 'src/entities/school-page-admin-link.entity';
@@ -136,6 +137,83 @@ describe(SchoolPagesService.name, () => {
         detailAddress,
         id: 2,
         name: schoolName + '2',
+      });
+    });
+  });
+
+  describe(SchoolPagesService.prototype.findAllAndCount.name, () => {
+    let studentId: number;
+    let findAllSchoolPageRequestQueryDto: FindAllSchoolPageRequestQueryDto;
+
+    beforeEach(() => {
+      studentId = NaN;
+      findAllSchoolPageRequestQueryDto = new FindAllSchoolPageRequestQueryDto();
+    });
+
+    it('전체 리스트를 불러오는 경우', async () => {
+      studentId = 1;
+      findAllSchoolPageRequestQueryDto.isSubscribe = false;
+      findAllSchoolPageRequestQueryDto.page = 0;
+      findAllSchoolPageRequestQueryDto.pageSize = 20;
+
+      const schoolPages = [
+        {
+          id: 2,
+        },
+      ];
+      const totalCount = 1;
+
+      schoolPageRepository.findAndCount.mockResolvedValue([
+        schoolPages,
+        totalCount,
+      ]);
+
+      await expect(
+        service.findAllAndCount(studentId, findAllSchoolPageRequestQueryDto),
+      ).resolves.toEqual([schoolPages, totalCount]);
+
+      expect(schoolPageRepository.findAndCount).toBeCalledWith({
+        where: {
+          type: undefined,
+        },
+        order: { id: 'ASC' },
+        skip: 0,
+        take: 20,
+      });
+    });
+
+    it('구독중인 리스트를 불러오는 경우', async () => {
+      studentId = 1;
+      findAllSchoolPageRequestQueryDto.isSubscribe = true;
+      findAllSchoolPageRequestQueryDto.page = 0;
+      findAllSchoolPageRequestQueryDto.pageSize = 20;
+
+      const schoolPages = [
+        {
+          id: 2,
+        },
+      ];
+      const totalCount = 1;
+
+      schoolPageRepository.findAndCount.mockResolvedValue([
+        schoolPages,
+        totalCount,
+      ]);
+
+      await expect(
+        service.findAllAndCount(studentId, findAllSchoolPageRequestQueryDto),
+      ).resolves.toEqual([schoolPages, totalCount]);
+
+      expect(schoolPageRepository.findAndCount).toBeCalledWith({
+        where: {
+          type: undefined,
+          schoolPageSubscribeList: {
+            studentId,
+          },
+        },
+        order: { id: 'ASC' },
+        skip: 0,
+        take: 20,
       });
     });
   });
