@@ -24,6 +24,7 @@ import {
   ApiSchoolPageCreate,
   ApiSchoolPageCreateNews,
   ApiSchoolPageFindAllAndCount,
+  ApiSchoolPageFindOne,
   ApiSchoolPagePartialUpdateNews,
   ApiSchoolPageRemoveNews,
   ApiSchoolPageSubscribe,
@@ -68,8 +69,8 @@ export class SchoolPagesController {
     summary: '학교 페이지 전체 조회',
     description: '비회원 유저는 페이지 서비스 사용이 불가능하다고 가정한다.',
   })
-  @Get()
   @UseGuards(JwtAuthGuard)
+  @Get()
   async findAllAndCount(
     @Student() student: StudentEntity,
     @Query() findAllSchoolPageRequestQueryDto: FindAllSchoolPageRequestQueryDto,
@@ -83,6 +84,24 @@ export class SchoolPagesController {
     return {
       schoolPages,
       totalCount,
+    };
+  }
+
+  @ApiSchoolPageFindOne({
+    summary: '학교 페이지 단일 조회',
+    description: '비회원 유저는 페이지 서비스 사용이 불가능하다고 가정한다.',
+  })
+  @UseGuards(JwtAuthGuard)
+  @Get(':schoolPageId')
+  async findOne(
+    @Param('schoolPageId', ParsePositiveIntPipe) schoolPageId: number,
+  ) {
+    const schoolPage = await this.schoolPagesService.findOneOrNotFound({
+      id: schoolPageId,
+    });
+
+    return {
+      schoolPage: new SchoolPageResponseDto(schoolPage),
     };
   }
 

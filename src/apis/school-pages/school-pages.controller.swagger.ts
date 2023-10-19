@@ -41,7 +41,7 @@ export const ApiSchoolPageFindAllAndCount = (
     ApiOperation(apiOptions),
     ApiBearerAuth(),
     ApiResponse({
-      status: HttpStatus.CREATED,
+      status: HttpStatus.OK,
       schema: {
         properties: {
           schoolPages: {
@@ -52,6 +52,28 @@ export const ApiSchoolPageFindAllAndCount = (
           },
           totalCount: {
             type: 'number',
+          },
+        },
+      },
+    }),
+  );
+};
+
+export const ApiSchoolPageFindOne = (
+  apiOptions: Required<Pick<OperationObject, 'summary'>> &
+    Partial<OperationObject>,
+) => {
+  return applyDecorators(
+    ApiExtraModels(SchoolPageResponseDto),
+    ApiOperation(apiOptions),
+    ApiBearerAuth(),
+    ApiResponse({
+      status: HttpStatus.OK,
+      schema: {
+        properties: {
+          schoolPage: {
+            type: 'object',
+            $ref: getSchemaPath(SchoolPageResponseDto),
           },
         },
       },
