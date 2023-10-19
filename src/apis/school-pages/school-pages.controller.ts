@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Delete,
+  Param,
   Patch,
   Post,
   UseGuards,
@@ -9,10 +10,16 @@ import {
 import { ApiTags } from '@nestjs/swagger';
 import { Student } from 'src/apis/auth/decorators/student.decorator';
 import { JwtAuthGuard } from 'src/apis/auth/guards/jwt-auth.guard';
+import { CreateSchoolPageNewsRequestBodyDto } from 'src/apis/school-pages/dto/create-school-page-news-request-body.dto';
 import { CreateSchoolPageRequestBodyDto } from 'src/apis/school-pages/dto/create-school-page-request-body.dto';
+import { SchoolPageNewsResponseDto } from 'src/apis/school-pages/dto/school-page-news-response.dto';
 import { SchoolPageResponseDto } from 'src/apis/school-pages/dto/school-page-response.dto';
-import { ApiSchoolPageCreate } from 'src/apis/school-pages/school-pages.controller.swagger';
+import {
+  ApiSchoolPageCreate,
+  ApiSchoolPageCreateNews,
+} from 'src/apis/school-pages/school-pages.controller.swagger';
 import { SchoolPagesService } from 'src/apis/school-pages/school-pages.service';
+import { ParsePositiveIntPipe } from 'src/common/pipes/parse-positive-int.pipe';
 import { StudentEntity } from 'src/entities/student.entity';
 
 @ApiTags('school page')
@@ -43,9 +50,33 @@ export class SchoolPagesController {
     };
   }
 
+  @ApiSchoolPageCreateNews({ summary: '학교 뉴스 생성' })
+  @UseGuards(JwtAuthGuard)
   @Post(':schoolPageId/news')
-  createNews() {
-    return this.schoolPagesService.createNews();
+  async createNews(
+    @Student() student: StudentEntity,
+    @Param('schoolPageId', ParsePositiveIntPipe) schoolPageId: number,
+    @Body()
+    createSchoolPageNewRequestBodyDto: CreateSchoolPageNewsRequestBodyDto,
+  ) {
+    await this.schoolPagesService.findOneOrNotFound({
+      id: schoolPageId,
+    });
+
+    await this.schoolPagesService.findOneSchoolPageAdminOrForbidden(
+      student.id,
+      schoolPageId,
+    );
+
+    const newSchoolPageNews = await this.schoolPagesService.createNews(
+      student.id,
+      schoolPageId,
+      createSchoolPageNewRequestBodyDto,
+    );
+
+    return {
+      schoolPageNews: new SchoolPageNewsResponseDto(newSchoolPageNews),
+    };
   }
 
   @Patch(':schoolPageId/news/:newsId')

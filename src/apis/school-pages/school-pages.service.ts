@@ -1,13 +1,17 @@
 import {
   ConflictException,
+  ForbiddenException,
   Injectable,
   InternalServerErrorException,
+  NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { CreateSchoolPageNewsRequestBodyDto } from 'src/apis/school-pages/dto/create-school-page-news-request-body.dto';
 import { CreateSchoolPageRequestBodyDto } from 'src/apis/school-pages/dto/create-school-page-request-body.dto';
+import { SchoolPageNewsEntity } from 'src/entities/school-news.entity';
 import { SchoolPageAdminLinkEntity } from 'src/entities/school-page-admin-link.entity';
 import { SchoolPageEntity } from 'src/entities/school-page.entity';
-import { DataSource, Repository } from 'typeorm';
+import { DataSource, FindOptionsWhere, Repository } from 'typeorm';
 
 @Injectable()
 export class SchoolPagesService {
@@ -17,6 +21,8 @@ export class SchoolPagesService {
     private readonly schoolPageRepository: Repository<SchoolPageEntity>,
     @InjectRepository(SchoolPageAdminLinkEntity)
     private readonly schoolPageAdminLinkRepository: Repository<SchoolPageAdminLinkEntity>,
+    @InjectRepository(SchoolPageNewsEntity)
+    private readonly schoolPageNewsRepository: Repository<SchoolPageNewsEntity>,
   ) {}
 
   async create(
@@ -77,8 +83,47 @@ export class SchoolPagesService {
     }
   }
 
-  createNews() {
-    return;
+  async findOneOrNotFound(where: FindOptionsWhere<SchoolPageEntity>) {
+    const existSchoolPage = await this.schoolPageRepository.findOneBy(where);
+
+    if (!existSchoolPage) {
+      throw new NotFoundException('존재하지 않는 학교 페이지');
+    }
+
+    return existSchoolPage;
+  }
+
+  async findOneSchoolPageAdminOrForbidden(
+    studentId: number,
+    schoolPageId: number,
+  ) {
+    const existSchoolPageAdminLink =
+      await this.schoolPageAdminLinkRepository.findOneBy({
+        studentId,
+        schoolPageId,
+      });
+
+    if (!existSchoolPageAdminLink) {
+      throw new ForbiddenException('학교 페이지 관리자가 아닙니다.');
+    }
+
+    return existSchoolPageAdminLink;
+  }
+
+  async createNews(
+    studentId: number,
+    schoolPageId: number,
+    createSchoolPageNewRequestBodyDto: CreateSchoolPageNewsRequestBodyDto,
+  ) {
+    const newSchoolNews = this.schoolPageNewsRepository.create({
+      studentId,
+      schoolPageId,
+      ...createSchoolPageNewRequestBodyDto,
+    });
+
+    await this.schoolPageNewsRepository.save(newSchoolNews);
+
+    return newSchoolNews;
   }
 
   partialUpdateNews() {

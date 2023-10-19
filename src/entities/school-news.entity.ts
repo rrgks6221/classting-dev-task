@@ -8,8 +8,8 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
-@Entity({ name: 'school_news' })
-export class SchoolNewsEntity {
+@Entity({ name: 'school_page_news' })
+export class SchoolPageNewsEntity {
   @PrimaryGeneratedColumn({
     type: 'int',
     name: 'id',
@@ -67,7 +67,7 @@ export class SchoolNewsEntity {
 
   @ManyToOne(
     () => SchoolPageEntity,
-    (schoolPage) => schoolPage.schoolNewsList,
+    (schoolPage) => schoolPage.schoolPageNewsList,
     {
       onUpdate: 'CASCADE',
       onDelete: 'CASCADE',
@@ -76,7 +76,7 @@ export class SchoolNewsEntity {
   @JoinColumn([{ name: 'school_page_id', referencedColumnName: 'id' }])
   schoolPage: SchoolPageEntity;
 
-  @ManyToOne(() => StudentEntity, (student) => student.schoolNewsList, {
+  @ManyToOne(() => StudentEntity, (student) => student.schoolPageNewsList, {
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
   })
