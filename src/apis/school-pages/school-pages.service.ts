@@ -122,7 +122,27 @@ export class SchoolPagesService {
   }
 
   async unsubscribe(studentId: number, schoolPageId: number): Promise<void> {
-    return;
+    await this.findOneOrNotFound({ id: schoolPageId });
+
+    const alreadySubscribe =
+      await this.schoolPageSubscribeLinkRepository.findOne({
+        select: {
+          id: true,
+        },
+        where: {
+          schoolPageId,
+          studentId,
+        },
+      });
+
+    if (!alreadySubscribe) {
+      throw new ConflictException('구독중이 아닙니다.');
+    }
+
+    await this.schoolPageSubscribeLinkRepository.delete({
+      schoolPageId,
+      studentId,
+    });
   }
 
   async findOneSchoolPageAdminOrForbidden(
