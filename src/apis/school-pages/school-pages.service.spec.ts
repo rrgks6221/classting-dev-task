@@ -7,6 +7,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { CreateSchoolPageNewsRequestBodyDto } from 'src/apis/school-pages/dto/create-school-page-news-request-body.dto';
 import { CreateSchoolPageRequestBodyDto } from 'src/apis/school-pages/dto/create-school-page-request-body.dto';
+import { FindAllSchoolPageNewsRequestQueryDto } from 'src/apis/school-pages/dto/find-all-school-page-news-request-query.dto';
 import { FindAllSchoolPageRequestQueryDto } from 'src/apis/school-pages/dto/find-all-school-page-request-query.dto';
 import { PartialUpdateSchoolPageNewsRequestBodyDto } from 'src/apis/school-pages/dto/partial-update-school-page-news-request-body.dto';
 import { SchoolPageNewsEntity } from 'src/entities/school-news.entity';
@@ -378,6 +379,51 @@ describe(SchoolPagesService.name, () => {
           createSchoolPageNewRequestBodyDto,
         ),
       ).resolves.toEqual(newSchoolPageNews);
+    });
+  });
+
+  describe(SchoolPagesService.prototype.findAllAndCountNews.name, () => {
+    let schoolPageId: number;
+    let findAllSchoolPageNewsRequestQueryDto: FindAllSchoolPageNewsRequestQueryDto;
+
+    beforeEach(() => {
+      schoolPageId = NaN;
+      findAllSchoolPageNewsRequestQueryDto =
+        new FindAllSchoolPageRequestQueryDto();
+    });
+
+    it('전체 조회 성공', async () => {
+      schoolPageId = 1;
+      findAllSchoolPageNewsRequestQueryDto.page = 0;
+      findAllSchoolPageNewsRequestQueryDto.pageSize = 20;
+
+      const newsList = [
+        {
+          id: 1,
+        },
+      ];
+      const totalCount = 1;
+
+      schoolPageNewsRepository.findAndCount.mockResolvedValue([
+        newsList,
+        totalCount,
+      ]);
+
+      await expect(
+        service.findAllAndCountNews(
+          schoolPageId,
+          findAllSchoolPageNewsRequestQueryDto,
+        ),
+      ).resolves.toEqual([newsList, totalCount]);
+
+      expect(schoolPageNewsRepository.findAndCount).toBeCalledWith({
+        where: {
+          schoolPageId,
+        },
+        order: { id: 'ASC' },
+        skip: 0,
+        take: 20,
+      });
     });
   });
 

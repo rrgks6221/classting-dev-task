@@ -89,7 +89,7 @@ export class SchoolPagesService {
     }
   }
 
-  async findAllAndCount(
+  findAllAndCount(
     studentId: number,
     findAllSchoolPageRequestQueryDto: FindAllSchoolPageRequestQueryDto,
   ) {
@@ -105,15 +105,12 @@ export class SchoolPagesService {
         : undefined,
     };
 
-    const [schoolPages, totalCount] =
-      await this.schoolPageRepository.findAndCount({
-        where,
-        order: { [sortBy || 'id']: orderBy || 'ASC' },
-        skip: page * pageSize,
-        take: pageSize,
-      });
-
-    return [schoolPages, totalCount];
+    return this.schoolPageRepository.findAndCount({
+      where,
+      order: { [sortBy || 'id']: orderBy || 'ASC' },
+      skip: page * pageSize,
+      take: pageSize,
+    });
   }
 
   async findOneOrNotFound(where: FindOptionsWhere<SchoolPageEntity>) {
@@ -207,7 +204,7 @@ export class SchoolPagesService {
     return newSchoolNews;
   }
 
-  async findAllAndCountNews(
+  findAllAndCountNews(
     schoolPageId: number,
     findAllSchoolPageNewsRequestQueryDto: FindAllSchoolPageNewsRequestQueryDto,
   ) {
@@ -218,15 +215,12 @@ export class SchoolPagesService {
       schoolPageId,
     };
 
-    const [schoolPageNewsList, totalCount] =
-      await this.schoolPageNewsRepository.findAndCount({
-        where,
-        order: { [sortBy || 'id']: orderBy || 'ASC' },
-        skip: page * pageSize,
-        take: pageSize,
-      });
-
-    return [schoolPageNewsList, totalCount];
+    return this.schoolPageNewsRepository.findAndCount({
+      where,
+      order: { [sortBy || 'id']: orderBy || 'ASC' },
+      skip: page * pageSize,
+      take: pageSize,
+    });
   }
 
   async findOneNewsOrNotFound(newsId: number) {
