@@ -17,7 +17,7 @@ import { SignInRequestBodyDto } from 'src/apis/auth/dto/sign-in-request-body.dto
 import { SignUpRequestBodyDto } from 'src/apis/auth/dto/sign-up-request-body.dto';
 import { JwtAuthGuard } from 'src/apis/auth/guards/jwt-auth.guard';
 import { StudentResponseDto } from 'src/apis/students/dto/student-response.dto';
-import { StudentEntity } from 'src/entities/student.entity';
+import { StudentEntity } from 'src/apis/students/entities/student.entity';
 import { AuthService } from '../services/auth.service';
 
 @ApiTags('auth')

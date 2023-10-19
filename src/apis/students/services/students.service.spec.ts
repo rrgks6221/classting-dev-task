@@ -2,7 +2,7 @@ import { ConflictException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { CreateStudentDto } from 'src/apis/students/dto/create-student.dto';
-import { StudentEntity } from 'src/entities/student.entity';
+import { StudentEntity } from 'src/apis/students/entities/student.entity';
 import { MockStudentRepository } from 'test/mock/mock.repository';
 import { StudentsService } from './students.service';
 

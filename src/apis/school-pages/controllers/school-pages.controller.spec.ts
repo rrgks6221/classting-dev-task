@@ -5,7 +5,7 @@ import { CreateSchoolPageRequestBodyDto } from 'src/apis/school-pages/dto/create
 import { FindAllSchoolPageNewsRequestQueryDto } from 'src/apis/school-pages/dto/find-all-school-page-news-request-query.dto';
 import { FindAllSchoolPageRequestQueryDto } from 'src/apis/school-pages/dto/find-all-school-page-request-query.dto';
 import { PartialUpdateSchoolPageNewsRequestBodyDto } from 'src/apis/school-pages/dto/partial-update-school-page-news-request-body.dto';
-import { StudentEntity } from 'src/entities/student.entity';
+import { StudentEntity } from 'src/apis/students/entities/student.entity';
 import { MockSchoolPagesService } from 'test/mock/mock.service';
 import { SchoolPagesService } from '../services/school-pages.service';
 import { SchoolPagesController } from './school-pages.controller';

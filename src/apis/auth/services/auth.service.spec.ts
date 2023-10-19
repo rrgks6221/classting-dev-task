@@ -3,7 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import { Test, TestingModule } from '@nestjs/testing';
 import { SignInRequestBodyDto } from 'src/apis/auth/dto/sign-in-request-body.dto';
 import { SignUpRequestBodyDto } from 'src/apis/auth/dto/sign-up-request-body.dto';
-import { StudentsService } from 'src/apis/students/students.service';
+import { StudentsService } from 'src/apis/students/services/students.service';
 import { ENCRYPTION_TOKEN } from 'src/constants/token.constant';
 import { MockStudentsService } from 'test/mock/mock.service';
 import { AuthService } from './auth.service';

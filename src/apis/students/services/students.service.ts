@@ -1,8 +1,8 @@
 import { ConflictException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { StudentEntity } from 'src/entities/student.entity';
+import { StudentEntity } from 'src/apis/students/entities/student.entity';
 import { FindOptionsWhere, Repository } from 'typeorm';
-import { CreateStudentDto } from './dto/create-student.dto';
+import { CreateStudentDto } from '../dto/create-student.dto';
 
 @Injectable()
 export class StudentsService {
