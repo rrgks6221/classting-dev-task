@@ -75,3 +75,16 @@ export const ApiSchoolPagePartialUpdateNews = (
     }),
   );
 };
+
+export const ApiSchoolPageRemoveNews = (
+  apiOptions: Required<Pick<OperationObject, 'summary'>> &
+    Partial<OperationObject>,
+) => {
+  return applyDecorators(
+    ApiOperation(apiOptions),
+    ApiBearerAuth(),
+    ApiResponse({
+      status: HttpStatus.NO_CONTENT,
+    }),
+  );
+};

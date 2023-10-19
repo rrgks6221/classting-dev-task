@@ -2,6 +2,8 @@ import {
   Body,
   Controller,
   Delete,
+  HttpCode,
+  HttpStatus,
   Param,
   Patch,
   Post,
@@ -19,6 +21,7 @@ import {
   ApiSchoolPageCreate,
   ApiSchoolPageCreateNews,
   ApiSchoolPagePartialUpdateNews,
+  ApiSchoolPageRemoveNews,
 } from 'src/apis/school-pages/school-pages.controller.swagger';
 import { SchoolPagesService } from 'src/apis/school-pages/school-pages.service';
 import { ParsePositiveIntPipe } from 'src/common/pipes/parse-positive-int.pipe';
@@ -110,8 +113,24 @@ export class SchoolPagesController {
     };
   }
 
+  @ApiSchoolPageRemoveNews({ summary: '학교 뉴스 삭제' })
+  @UseGuards(JwtAuthGuard)
+  @HttpCode(HttpStatus.NO_CONTENT)
   @Delete(':schoolPageId/news/:newsId')
-  removeNews() {
-    return this.schoolPagesService.removeNews();
+  async removeNews(
+    @Student() student: StudentEntity,
+    @Param('schoolPageId', ParsePositiveIntPipe) schoolPageId: number,
+    @Param('newsId', ParsePositiveIntPipe) newsId: number,
+  ) {
+    await this.schoolPagesService.findOneOrNotFound({
+      id: schoolPageId,
+    });
+
+    await this.schoolPagesService.findOneSchoolPageAdminOrForbidden(
+      student.id,
+      schoolPageId,
+    );
+
+    return this.schoolPagesService.removeNews(newsId);
   }
 }

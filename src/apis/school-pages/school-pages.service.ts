@@ -151,8 +151,12 @@ export class SchoolPagesService {
     });
   }
 
-  removeNews() {
-    return;
+  async removeNews(newsId: number): Promise<void> {
+    await this.findOneNewsOrNotFound(newsId);
+
+    await this.schoolPageNewsRepository.delete({
+      id: newsId,
+    });
   }
 
   private isSameSchoolPage(
