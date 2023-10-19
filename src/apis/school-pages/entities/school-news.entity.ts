@@ -2,10 +2,12 @@ import { SchoolPageEntity } from 'src/apis/school-pages/entities/school-page.ent
 import { StudentEntity } from 'src/apis/students/entities/student.entity';
 import {
   Column,
+  CreateDateColumn,
   Entity,
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 
 @Entity({ name: 'school_page_news' })
@@ -49,19 +51,17 @@ export class SchoolPageNewsEntity {
   })
   description: string;
 
-  @Column({
+  @CreateDateColumn({
     type: 'timestamp',
     name: 'created_at',
     comment: '생성 일자',
-    default: () => 'CURRENT_TIMESTAMP',
   })
   createdAt: Date;
 
-  @Column({
+  @UpdateDateColumn({
     type: 'timestamp',
     name: 'updated_at',
     comment: '수정 일자',
-    default: () => 'CURRENT_TIMESTAMP',
   })
   updatedAt: Date;
 

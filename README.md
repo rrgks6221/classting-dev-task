@@ -10,7 +10,92 @@ Todo
 
 ## Usage
 
-Todo
+```bash
+# clone repository
+$ git clone https://github.com/rrgks6221/classting-dev-task
+
+# dependency install
+$ npm i
+
+# create environment variables file
+# 파일 생성 후 메일 본문에 있는 환경변수 붙여넣기
+$ touch .env
+
+# source code build
+$ npm run build
+
+# server starting
+# swagger url localhost:port/api-docs
+# ex) localhost:3000/api-docs
+$ npm run start:prod
+```
+
+### Scripts
+
+```bash
+# watch mode server starting
+$ npm run start:dev
+
+# debug mode server starting
+$ npm run start:debug
+
+# build
+$ npm run build
+
+# server string
+$ npm run start:prod
+
+# test
+$ npm run test
+```
+
+## Directory Structure
+
+```bash
+.
+├── src
+│   ├── apis # api 가 존재하거나 생성될 수 있는 module directory
+│   │   ├── auth # auth module
+│   │   │   ├── auth.module.ts
+│   │   │   ├── controllers # auth controller directory
+│   │   │   ├── decorators # auth decorator directory
+│   │   │   ├── dto # auth dto directory
+│   │   │   ├── guards # auth guard directory
+│   │   │   ├── jwt # auth jwt directory
+│   │   │   └── services # auth service directory
+│   │   ├── school-pages # schoolPages module
+│   │   │   ├── school-pages.module.ts
+│   │   │   ├── constants # schoolPage constant directory
+│   │   │   ├── controllers # schoolPage controller directory
+│   │   │   ├── dto # schoolPage dto directory
+│   │   │   ├── entities # schoolPage entity directory
+│   │   │   └── services # schoolPage service directory
+│   │   └── students
+│   │       ├── students.module.ts
+│   │       ├── dto # student dto directory
+│   │       ├── entities # student entity directory
+│   │       └── services # student service directory
+│   ├── common # common directory
+│   │   ├── dto # common dto directory
+│   │   ├── pipes # common pipe directory
+│   │   └── transformers # common transformer directory
+│   ├── config # config directory
+│   │   ├── app-config # env management directory
+│   │   └── external-config # external resource config directory
+│   ├── constants # common constant directory
+│   ├── app.module.ts # app module file
+│   └── main.ts # main file
+├── test # test directory
+│   ├── app.e2e-spec.ts
+│   ├── jest-e2e.json
+│   └── mock # mock directory
+│       ├── mock.common.ts # common mock file
+│       ├── mock.repository.ts # repository mock file
+│       ├── mock.service.ts # service mock file
+│       └── mock.type.ts # mock type file
+├── tsconfig.build.json # ts build config file
+└── tsconfig.json # ts config file
+```
 
 ## Branch Strategy
 

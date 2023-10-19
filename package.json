@@ -1,8 +1,15 @@
 {
   "name": "classting-dev-task",
-  "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "version": "1.0.0",
+  "description": "클레스팅 개발과제 뉴스피드",
+  "author": "Seokho Lee",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rrgks6221/classting-dev-task"
+  },
+  "engines": {
+    "node": "18.16.0"
+  },
   "private": true,
   "license": "UNLICENSED",
   "scripts": {

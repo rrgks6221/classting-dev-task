@@ -8,7 +8,7 @@ export class FindAllSchoolPageNewsRequestQueryDto extends PageDto {
   @ApiPropertyOptional({
     description: '정렬 기준',
     enum: ['id', 'type', 'createdAt'],
-    default: 'true',
+    default: 'id',
   })
   @IsIn(['id', 'type', 'createdAt'])
   @IsOptional()

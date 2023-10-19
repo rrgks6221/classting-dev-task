@@ -1,7 +1,14 @@
 import { SchoolPageNewsEntity } from 'src/apis/school-pages/entities/school-news.entity';
 import { SchoolPageAdminLinkEntity } from 'src/apis/school-pages/entities/school-page-admin-link.entity';
 import { SchoolPageSubscribeLinkEntity } from 'src/apis/school-pages/entities/school-page-subscribe-link.entity';
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity({ name: 'student' })
 export class StudentEntity {
@@ -37,19 +44,17 @@ export class StudentEntity {
   })
   password: string;
 
-  @Column({
+  @CreateDateColumn({
     type: 'timestamp',
     name: 'created_at',
     comment: '생성 일자',
-    default: () => 'CURRENT_TIMESTAMP',
   })
   createdAt: Date;
 
-  @Column({
+  @UpdateDateColumn({
     type: 'timestamp',
     name: 'updated_at',
     comment: '수정 일자',
-    default: () => 'CURRENT_TIMESTAMP',
   })
   updatedAt: Date;
 

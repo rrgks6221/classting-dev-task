@@ -2,6 +2,7 @@ import { SchoolPageEntity } from 'src/apis/school-pages/entities/school-page.ent
 import { StudentEntity } from 'src/apis/students/entities/student.entity';
 import {
   Column,
+  CreateDateColumn,
   Entity,
   JoinColumn,
   ManyToOne,
@@ -34,11 +35,10 @@ export class SchoolPageAdminLinkEntity {
   })
   schoolPageId: number;
 
-  @Column({
+  @CreateDateColumn({
     type: 'timestamp',
     name: 'created_at',
     comment: '생성 일자',
-    default: () => 'CURRENT_TIMESTAMP',
   })
   createdAt: Date;
 
