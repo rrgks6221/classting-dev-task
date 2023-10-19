@@ -127,9 +127,9 @@ export class SchoolPagesService {
     return newSchoolNews;
   }
 
-  async findOneNewsOrNotFound(schoolPageNewsId: number) {
+  async findOneNewsOrNotFound(newsId: number) {
     const existNews = await this.schoolPageNewsRepository.findOneBy({
-      id: schoolPageNewsId,
+      id: newsId,
     });
 
     if (!existNews) {
@@ -145,7 +145,7 @@ export class SchoolPagesService {
   ) {
     const oldNews = await this.findOneNewsOrNotFound(newsId);
 
-    return this.schoolPageAdminLinkRepository.save({
+    return this.schoolPageNewsRepository.save({
       ...oldNews,
       ...partialUpdateSchoolPageNewsRequestBodyDto,
     });

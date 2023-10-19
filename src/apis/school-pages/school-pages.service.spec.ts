@@ -7,6 +7,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { CreateSchoolPageNewsRequestBodyDto } from 'src/apis/school-pages/dto/create-school-page-news-request-body.dto';
 import { CreateSchoolPageRequestBodyDto } from 'src/apis/school-pages/dto/create-school-page-request-body.dto';
+import { PartialUpdateSchoolPageNewsRequestBodyDto } from 'src/apis/school-pages/dto/partial-update-school-page-news-request-body.dto';
 import { SchoolPageNewsEntity } from 'src/entities/school-news.entity';
 import { SchoolPageAdminLinkEntity } from 'src/entities/school-page-admin-link.entity';
 import { SchoolPageEntity } from 'src/entities/school-page.entity';
@@ -220,6 +221,62 @@ describe(SchoolPagesService.name, () => {
           createSchoolPageNewRequestBodyDto,
         ),
       ).resolves.toEqual(newSchoolPageNews);
+    });
+  });
+
+  describe(SchoolPagesService.prototype.findOneNewsOrNotFound.name, () => {
+    let newsId: number;
+
+    beforeEach(() => {
+      newsId = NaN;
+    });
+
+    it('뉴스가 존재하지 않는 경우', async () => {
+      newsId = 1;
+
+      schoolPageNewsRepository.findOneBy.mockResolvedValue(null);
+
+      await expect(service.findOneNewsOrNotFound(newsId)).rejects.toThrowError(
+        NotFoundException,
+      );
+    });
+
+    it('뉴스가 존재하는 경우', async () => {
+      newsId = 1;
+
+      schoolPageNewsRepository.findOneBy.mockResolvedValue({ id: newsId });
+
+      await expect(service.findOneNewsOrNotFound(newsId)).resolves.toEqual({
+        id: newsId,
+      });
+    });
+  });
+
+  describe(SchoolPagesService.prototype.partialUpdateNews.name, () => {
+    let newsId: number;
+    let partialUpdateSchoolPageNewsRequestBodyDto: PartialUpdateSchoolPageNewsRequestBodyDto;
+
+    beforeEach(() => {
+      newsId = NaN;
+      partialUpdateSchoolPageNewsRequestBodyDto =
+        new PartialUpdateSchoolPageNewsRequestBodyDto();
+    });
+
+    it('뉴스 업데이트 성공', async () => {
+      const newNews = {
+        ...partialUpdateSchoolPageNewsRequestBodyDto,
+        title: 'updated title',
+      };
+
+      schoolPageNewsRepository.findOneBy.mockResolvedValue({ title: 'title' });
+      schoolPageNewsRepository.save.mockResolvedValue(newNews);
+
+      await expect(
+        service.partialUpdateNews(
+          newsId,
+          partialUpdateSchoolPageNewsRequestBodyDto,
+        ),
+      ).resolves.toEqual(newNews);
     });
   });
 });
